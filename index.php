@@ -61,9 +61,9 @@ if (!empty($_SESSION['activa'])) {
     <h1>Bienvenidos</h1>
     </div>-->
     <div class="container" style="background-color: Transparent; margin-top:12%;">
-        <div class="row" style="background-color: purple; ">
-            <div class="col" style="background-color: black; padding: 6%;">
-                <img src="Cliente/Imagenes/logo.jpeg" height="250px" width="400px">
+        <div class="row" style="background-color: black; ">
+            <div class="col" style="background-color: black; margin-left: 10%; margin-top: 5%;">
+                <img src="Cliente/Imagenes/logo2.png" height="250px" width="400px">
             </div>
             <div class="col" style="background-color:  white;">
                 <div class="row" style="">

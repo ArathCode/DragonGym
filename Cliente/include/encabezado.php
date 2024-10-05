@@ -46,7 +46,7 @@ footer {
     <div  style="text-align: center; padding-top:15px ;Background-color: black">
         <div class="row">
             <div class="col-3">
-                <img src="Imagenes/Logo2.jpg" height="100" width="250" style="padding:3px ; margin-bottom: 10px; margin-left: 90px;">
+                <img src="Imagenes/logo2.png" height="100" width="250" style="padding:3px ; margin-bottom: 10px; margin-left: 90px;">
             </div>
             
             <div class="col">
