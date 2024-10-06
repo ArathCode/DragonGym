@@ -1,4 +1,5 @@
 <?php 
+include_once("../Servidor/conexion.php");
     session_start();
     if (!isset($_SESSION['tiempo'])) {
         $_SESSION['tiempo']=time();
@@ -55,7 +56,7 @@ footer {
                     <?php if($_SESSION['rol']==1){?>
                     <a href="Inicio.php" class="btn btn-primary " style="background-color: black; border-color:black ;  font-weight: bold;">Inicio</a>
                     <a href="Uusaurios.php" class="btn btn-primary " style="background-color: black ;   border-color:black ;font-weight: bold;">Usuarios</a>
-                    <a href="Categorias.php" class="btn btn-primary" style="background-color: black ;border-color:black ;font-weight: bold;">Categorias</a>
+                    <a href="Categorias.php" class="btn btn-primary" style="background-color: black ;border-color:black ;font-weight: bold;">Miembros</a>
                     <a href="Productos.php" class="btn btn-primary" style="background-color: black;  border-color:black;font-weight: bold; ">Productos</a>
                     <a href="Promociones.php" class="btn btn-primary" style="background-color: black;  border-color:black;font-weight: bold; ">Promociones</a>
                     <a href="Reportes.php" class="btn btn-primary" style="background-color: black;  border-color:black;font-weight: bold; ">Reportes</a>

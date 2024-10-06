@@ -19,7 +19,7 @@ if (!empty($_SESSION['activa'])) {
             $pass = mysqli_real_escape_string($conexion, $_POST['contra']);
             $query = mysqli_query(
                 $conexion,
-                "select * from usuarios where correo='$usuario' AND contra='$pass'"
+                "select * from usuario where NombreUsuario='$usuario' AND Contraseña='$pass'"
             );
             mysqli_close($conexion);
             $resultado = mysqli_num_rows($query);
@@ -27,10 +27,9 @@ if (!empty($_SESSION['activa'])) {
                 $dato = mysqli_fetch_array($query);
                 //creamos  variables de  tipo sesión  para  tener  los datos  disponibles
                 $_SESSION['activa'] = true;
-                $_SESSION['nombre'] = $dato['NomUsu'];
-                $_SESSION['paterno'] = $dato['ApeUsu'];
-                $_SESSION['materno'] = $dato['AmaUsu'];
-                $_SESSION['rol'] = $dato['idtipo'];
+                $_SESSION['nombre'] = $dato['NombreUsuario'];
+               
+                $_SESSION['rol'] = $dato['ID_Rol'];
                 header('location: Cliente/inicio.php');
             } else {
                 $alert = '<div class="alert alert-danger d-flex align-items-center" role="alert">
@@ -75,7 +74,7 @@ if (!empty($_SESSION['activa'])) {
                     </div>
                     <div class="mb-3">
                         <label for="exampleInputEmail1" class="form-label">Correo</label>
-                        <input type="email" class="form-control" id="correo" aria-describedby="emailHelp" name="correo">
+                        <input type="text" class="form-control" id="correo" aria-describedby="emailHelp" name="correo">
                         <div id="emailHelp" class="form-text">Nunca compartiremos tu correo electrónico con nadie más.</div>
                     </div>
                     <div class="mb-3">
