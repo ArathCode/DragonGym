@@ -1,4 +1,5 @@
 <?php
+include_once("../Servidor/conexion.php");
 
 // Insertar nuevo miembro
 if (!empty($_POST)) {
@@ -145,50 +146,59 @@ if (!empty($_POST)) {
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form method="POST">
+                    <form method="POST" id="memberForm">
                         <div class="input-group flex-nowrap">
                             <span class="input-group-text">Nombre</span>
-                            <input type="text" class="form-control" name="nombre">
+                            <input type="text" class="form-control" name="nombre" required>
                         </div>
                         <br>
                         <div class="input-group flex-nowrap">
                             <span class="input-group-text">Apellido Paterno</span>
-                            <input type="text" class="form-control" name="apellido_p">
+                            <input type="text" class="form-control" name="apellido_p" required>
                         </div>
                         <br>
                         <div class="input-group flex-nowrap">
                             <span class="input-group-text">Apellido Materno</span>
-                            <input type="text" class="form-control" name="apellido_m">
+                            <input type="text" class="form-control" name="apellido_m" required>
                         </div>
                         <br>
                         <div class="input-group flex-nowrap">
                             <span class="input-group-text">Sexo</span>
-                            <input type="text" class="form-control" name="sexo">
+                            <input type="text" class="form-control" name="sexo" required>
                         </div>
                         <br>
                         <div class="input-group flex-nowrap">
                             <span class="input-group-text">Fecha de Inicio</span>
-                            <input type="date" class="form-control" name="fecha_inicio">
+                            <input type="date" class="form-control" id="fecha_inicio" name="fecha_inicio" required>
+                        </div>
+                        <br>
+                        <div class="input-group flex-nowrap">
+                            <span class="input-group-text">Duración</span>
+                            <select class="form-select" id="duracion_tipo" required>
+                                <option value="meses">Meses</option>
+                                <option value="semanas">Semanas</option>
+                            </select>
+                            <input type="number" class="form-control" id="duracion_numero" placeholder="Número" required>
                         </div>
                         <br>
                         <div class="input-group flex-nowrap">
                             <span class="input-group-text">Fecha de Fin</span>
-                            <input type="date" class="form-control" name="fecha_fin">
+                            <input type="date" class="form-control" id="fecha_fin" name="fecha_fin" readonly>
                         </div>
                         <br>
                         <div class="input-group flex-nowrap">
                             <span class="input-group-text">Teléfono</span>
-                            <input type="text" class="form-control" name="telefono">
+                            <input type="text" class="form-control" name="telefono" required>
                         </div>
                         <br>
                         <div class="input-group flex-nowrap">
                             <span class="input-group-text">Meses Totales</span>
-                            <input type="text" class="form-control" name="meses_t">
+                            <input type="number" class="form-control" name="meses_t" required>
                         </div>
                         <br>
                         <div class="input-group flex-nowrap">
                             <span class="input-group-text">Meses Completados</span>
-                            <input type="text" class="form-control" name="meses_c">
+                            <input type="number" class="form-control" name="meses_c" required>
                         </div>
                         <br>
                         <div class="modal-footer">
@@ -214,47 +224,47 @@ if (!empty($_POST)) {
                         <input type="hidden" id="edit-id" name="ID_Membresia">
                         <div class="input-group flex-nowrap">
                             <span class="input-group-text">Nombre</span>
-                            <input type="text" class="form-control" id="edit-nombre" name="nombre">
+                            <input type="text" class="form-control" id="edit-nombre" name="nombre" required>
                         </div>
                         <br>
                         <div class="input-group flex-nowrap">
                             <span class="input-group-text">Apellido Paterno</span>
-                            <input type="text" class="form-control" id="edit-apellido-p" name="apellido_p">
+                            <input type="text" class="form-control" id="edit-apellido-p" name="apellido_p" required>
                         </div>
                         <br>
                         <div class="input-group flex-nowrap">
                             <span class="input-group-text">Apellido Materno</span>
-                            <input type="text" class="form-control" id="edit-apellido-m" name="apellido_m">
+                            <input type="text" class="form-control" id="edit-apellido-m" name="apellido_m" required>
                         </div>
                         <br>
                         <div class="input-group flex-nowrap">
                             <span class="input-group-text">Sexo</span>
-                            <input type="text" class="form-control" id="edit-sexo" name="sexo">
+                            <input type="text" class="form-control" id="edit-sexo" name="sexo" required>
                         </div>
                         <br>
                         <div class="input-group flex-nowrap">
                             <span class="input-group-text">Fecha de Inicio</span>
-                            <input type="date" class="form-control" id="edit-fecha-inicio" name="fecha_inicio">
+                            <input type="date" class="form-control" id="edit-fecha-inicio" name="fecha_inicio" required>
                         </div>
                         <br>
                         <div class="input-group flex-nowrap">
                             <span class="input-group-text">Fecha de Fin</span>
-                            <input type="date" class="form-control" id="edit-fecha-fin" name="fecha_fin">
+                            <input type="date" class="form-control" id="edit-fecha-fin" name="fecha_fin" required>
                         </div>
                         <br>
                         <div class="input-group flex-nowrap">
                             <span class="input-group-text">Teléfono</span>
-                            <input type="text" class="form-control" id="edit-telefono" name="telefono">
+                            <input type="text" class="form-control" id="edit-telefono" name="telefono" required>
                         </div>
                         <br>
                         <div class="input-group flex-nowrap">
                             <span class="input-group-text">Meses Totales</span>
-                            <input type="text" class="form-control" id="edit-meses-t" name="meses_t">
+                            <input type="number" class="form-control" id="edit-meses-t" name="meses_t" required>
                         </div>
                         <br>
                         <div class="input-group flex-nowrap">
                             <span class="input-group-text">Meses Completados</span>
-                            <input type="text" class="form-control" id="edit-meses-c" name="meses_c">
+                            <input type="number" class="form-control" id="edit-meses-c" name="meses_c" required>
                         </div>
                         <br>
                         <div class="modal-footer">
@@ -266,7 +276,10 @@ if (!empty($_POST)) {
             </div>
         </div>
     </div>
-
+    <footer>
+        <?php include_once("include/footer.php"); ?>
+    </footer>
+    <br><br>
     <script>
     document.querySelectorAll('.editBtn').forEach(button => {
         button.addEventListener('click', function() {
@@ -289,6 +302,31 @@ if (!empty($_POST)) {
             document.getElementById('edit-telefono').value = telefono;
         });
     });
+
+    // Calcular la fecha de fin automáticamente
+    document.getElementById('duracion_numero').addEventListener('input', calcularFechaFin);
+    document.getElementById('duracion_tipo').addEventListener('change', calcularFechaFin);
+    document.getElementById('fecha_inicio').addEventListener('change', calcularFechaFin);
+
+    function calcularFechaFin() {
+        const fechaInicio = document.getElementById('fecha_inicio').value;
+        const duracionTipo = document.getElementById('duracion_tipo').value;
+        const duracionNumero = parseInt(document.getElementById('duracion_numero').value) || 0;
+
+        if (fechaInicio && duracionNumero > 0) {
+            const fechaInicioDate = new Date(fechaInicio);
+            let fechaFinDate;
+
+            if (duracionTipo === 'meses') {
+                fechaFinDate = new Date(fechaInicioDate.setMonth(fechaInicioDate.getMonth() + duracionNumero));
+            } else if (duracionTipo === 'semanas') {
+                fechaFinDate = new Date(fechaInicioDate.setDate(fechaInicioDate.getDate() + (duracionNumero * 7)));
+            }
+
+            const opciones = { year: 'numeric', month: '2-digit', day: '2-digit' };
+            document.getElementById('fecha_fin').value = fechaFinDate.toLocaleDateString('fr-CA', opciones); // Formato YYYY-MM-DD
+        }
+    }
     </script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
