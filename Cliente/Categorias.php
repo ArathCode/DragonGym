@@ -1,5 +1,27 @@
 <?php
 include_once("../Servidor/conexion.php");
+$categoria = isset($_GET['categoria']) ? $_GET['categoria'] : '';
+$search = isset($_GET['search']) ? $_GET['search'] : '';
+
+// Consulta básica para seleccionar todos los miembros
+$query = "SELECT ID_Membresia, Nombre, ApellidoP, ApellidoM, Sexo, Categoria, FechaInicio, FechaFin, Telefono, MesesT, MesesC FROM miembros";
+
+// Si se ha seleccionado un filtro de categoría (Semana o Mes), añadimos la condición al query
+if ($categoria != '') {
+    $query .= " WHERE Categoria = '$categoria'";
+}
+
+// Si se ha buscado por nombre, añadimos la condición al query
+if ($search != '') {
+    if (strpos($query, 'WHERE') !== false) {
+        $query .= " AND Nombre LIKE '%$search%'";
+    } else {
+        $query .= " WHERE Nombre LIKE '%$search%'";
+    }
+}
+
+// Ejecutar la consulta
+$result = mysqli_query($conexion, $query);
 
 // Insertar nuevo miembro
 if (!empty($_POST)) {
@@ -10,19 +32,21 @@ if (!empty($_POST)) {
                   </div>';
     } else {
         $nombre = $_POST['nombre'];
-        $apellido_p = $_POST['apellido_p'];
-        $apellido_m = $_POST['apellido_m'];
+        $apellidoP = $_POST['apellido_p'];
+        $apellidoM = $_POST['apellido_m'];
         $sexo = $_POST['sexo'];
-        $fecha_inicio = $_POST['fecha_inicio'];
-        $fecha_fin = $_POST['fecha_fin'];
+        $fechaInicio = $_POST['fecha_inicio'];
+        $fechaFin = $_POST['fecha_fin'];
         $telefono = $_POST['telefono'];
-        $meses_t = $_POST['meses_t'];
-        $meses_c = $_POST['meses_c'];
-
-        // Insertar en la base de datos
-        $consulta = mysqli_query($conexion, "INSERT INTO miembros (Nombre, ApellidoP, ApellidoM, Sexo, FechaInicio, FechaFin, Telefono, MesesT, MesesC)
-                                             VALUES ('$nombre', '$apellido_p', '$apellido_m', '$sexo', '$fecha_inicio', '$fecha_fin', '$telefono', '$meses_t', '$meses_c')");
-
+        $mesesT = $_POST['meses_t'];
+        $mesesC = $_POST['meses_c'];
+        $categoria = $_POST['duracion_tipo']; 
+    
+        // Insertar en la tabla miembros
+        $consulta  = "INSERT INTO miembros (Nombre, ApellidoP, ApellidoM, Sexo, Categoria, FechaInicio, FechaFin, Telefono, MesesT, MesesC)
+                  VALUES ('$nombre', '$apellidoP', '$apellidoM', '$sexo', '$categoria', '$fechaInicio', '$fechaFin', '$telefono', '$mesesT', '$mesesC')";
+        
+        $result = mysqli_query($conexion, $consulta);
         if ($consulta) {
             $alert = '<div class="alert alert-success d-flex align-items-center" role="alert">
                       <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Warning:"><use xlink:href="#exclamation-triangle-fill"/></svg>
@@ -70,10 +94,21 @@ if (!empty($_POST)) {
             </button>
         </div>
     </div>
+    
     <br>
 
     <!-- Mostrar alertas -->
     <?php if (isset($alert)) echo $alert; ?>
+
+    <div class="container">
+        <!-- Formulario de búsqueda -->
+        <form method="GET" action="">
+            <div class="input-group mb-3">
+                <input type="text" class="form-control" placeholder="Buscar por nombre" name="search" value="<?php echo $search; ?>">
+                <button class="btn btn-outline-secondary" type="submit">Buscar</button>
+            </div>
+        </form>
+    </div>
 
     <div class="container" style="text-align:center">
         <table class="table">
@@ -84,18 +119,18 @@ if (!empty($_POST)) {
                     <th scope="col">Apellido Paterno</th>
                     <th scope="col">Apellido Materno</th>
                     <th scope="col">Sexo</th>
+                    <th scope="col">Categoria</th>
                     <th scope="col">Fecha Inicio</th>
                     <th scope="col">Fecha Fin</th>
                     <th scope="col">Teléfono</th>
                     <th scope="col">Meses Totales</th>
-                    <th scope="col">Meses Completados</th>
                     <th scope="col">Acciones</th>
                 </tr>
             </thead>
             <tbody>
                 <?php
-                $con = mysqli_query($conexion, "SELECT * FROM miembros");
-                $fecha_actual = date('Y-m-d'); // Fecha actual para comparar
+                $con = mysqli_query($conexion, $query);
+                $fecha_actual = date('Y-m-d'); 
 
                 while ($datos = mysqli_fetch_assoc($con)) {
                     $clase_fila = ($datos['FechaFin'] < $fecha_actual) ? 'vencido' : 'vigente';
@@ -106,11 +141,11 @@ if (!empty($_POST)) {
                         <td><?php echo $datos['ApellidoP']; ?></td>
                         <td><?php echo $datos['ApellidoM']; ?></td>
                         <td><?php echo $datos['Sexo']; ?></td>
+                        <td><?php echo $datos['Categoria']; ?></td>
                         <td><?php echo $datos['FechaInicio']; ?></td>
                         <td><?php echo $datos['FechaFin']; ?></td>
                         <td><?php echo $datos['Telefono']; ?></td>
                         <td><?php echo $datos['MesesT']; ?></td>
-                        <td><?php echo $datos['MesesC']; ?></td>
                         <td>
                             <!-- Botón para editar -->
                             <button type="button" class="btn btn-dark editBtn" data-id="<?php echo $datos['ID_Membresia']; ?>" 
@@ -118,6 +153,7 @@ if (!empty($_POST)) {
                                     data-apellido-p="<?php echo $datos['ApellidoP']; ?>" 
                                     data-apellido-m="<?php echo $datos['ApellidoM']; ?>" 
                                     data-sexo="<?php echo $datos['Sexo']; ?>" 
+                                    data-sexo="<?php echo $datos['Categoria']; ?>" 
                                     data-fecha-inicio="<?php echo $datos['FechaInicio']; ?>" 
                                     data-fecha-fin="<?php echo $datos['FechaFin']; ?>" 
                                     data-telefono="<?php echo $datos['Telefono']; ?>" 
@@ -174,7 +210,7 @@ if (!empty($_POST)) {
                         <br>
                         <div class="input-group flex-nowrap">
                             <span class="input-group-text">Duración</span>
-                            <select class="form-select" id="duracion_tipo" required>
+                            <select class="form-select" id="duracion_tipo" name="duracion_tipo" required>
                                 <option value="meses">Meses</option>
                                 <option value="semanas">Semanas</option>
                             </select>
@@ -211,7 +247,9 @@ if (!empty($_POST)) {
         </div>
     </div>
 
+
     <!-- Modal Editar Miembro -->
+    <!-- (Aquí iría tu código para el modal de edición) -->
     <div class="modal fade" id="exampleModaledit" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -328,7 +366,10 @@ if (!empty($_POST)) {
         }
     }
     </script>
+    <footer>
+        <?php include_once("include/footer.php"); ?>
+    </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 </html>
