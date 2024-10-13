@@ -56,8 +56,8 @@ footer {
                     <?php if($_SESSION['rol']==1){?>
                     <a href="Inicio.php" class="btn btn-primary " style="background-color: black; border-color:black ;  font-weight: bold;">Inicio</a>
                     <a href="Uusaurios.php" class="btn btn-primary " style="background-color: black ;   border-color:black ;font-weight: bold;">Usuarios</a>
-                    <a href="Categorias.php" class="btn btn-primary" style="background-color: black ;border-color:black ;font-weight: bold;">Miembros</a>
-                    <a href="Productos.php" class="btn btn-primary" style="background-color: black;  border-color:black;font-weight: bold; ">Productos</a>
+                    <a href="Miembros.php" class="btn btn-primary" style="background-color: black ;border-color:black ;font-weight: bold;">Miembros</a>
+                    <a href="Gastos.php" class="btn btn-primary" style="background-color: black;  border-color:black;font-weight: bold; ">Productos</a>
                     <a href="Promociones.php" class="btn btn-primary" style="background-color: black;  border-color:black;font-weight: bold; ">Promociones</a>
                     <a href="Reportes.php" class="btn btn-primary" style="background-color: black;  border-color:black;font-weight: bold; ">Reportes</a>
                     <a href="Salir.php" class="btn btn-primary" style="background-color: black;  border-color:black;font-weight: bold; ">Salir</a>
@@ -65,7 +65,7 @@ footer {
                    <?php if($_SESSION['rol']==2){?>
                     <a href="Inicio.php" class="btn btn-primary " style="background-color: black; border-color:black ">Inicio</a>
                     <a href="Uusaurios.php" class="btn btn-primary " style="background-color: black ;   border-color:black ;">Usuarios</a>
-                    <a href="Productos.php" class="btn btn-primary" style="background-color: black;  border-color:black ">Productos</a>
+                    <a href="Gastos.php" class="btn btn-primary" style="background-color: black;  border-color:black ">Productos</a>
                     <a href="Promociones.php" class="btn btn-primary" style="background-color: black;  border-color:black ">Promociones</a>
                     <a href="Salir.php" class="btn btn-primary" style="background-color: black;  border-color:black ">Salir</a>
                    <?php } ?>

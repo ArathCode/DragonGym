@@ -14,7 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   $result = mysqli_query($conexion, $query);
 
   if ($result) {
-    header("location:../Cliente/Categorias.php");
+    header("location:../Cliente/Miembros.php");
   } else {
     echo "Error al actualizar el usuario";
   }
