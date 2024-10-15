@@ -1,36 +1,75 @@
 <?php
 include_once("../Servidor/conexion.php");
 
-if(!empty($_POST)){
-  if(empty($_POST['cam1']) || empty($_POST['cam2']) || empty($_POST['cam3']) || empty($_POST['cam4']) ){
-    $alert = '<div class="alert alert-danger d-flex align-items-center" role="alert">
-              <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Warning:"><use xlink:href="#exclamation-triangle-fill"/></svg>
-              <div>Todos los campos son obligatorios</div>
-              </div>';
-  } else {
-    $c1 = $_POST['cam1'];
-    $c2 = $_POST['cam2'];
-    $c3 = $_POST['cam3'];
-    $c4 = $_POST['cam4'];
+$alert = ""; 
+$filterQuery = "";
+
+if (isset($_POST['action']) && $_POST['action'] == 'filter') {
     
-   
+    if (!empty($_POST['startDate']) && !empty($_POST['endDate'])) {
+        $startDate = mysqli_real_escape_string($conexion, $_POST['startDate']);
+        $endDate = mysqli_real_escape_string($conexion, $_POST['endDate']);
+        $filterQuery = " ";
+        $query = "SELECT u.ID_Gasto, u.Descripcion, u.Precio, u.Fecha, u.ID_Usuario, t.NombreUsuario 
+              FROM gastos u 
+              INNER JOIN usuario t ON u.ID_Usuario = t.ID_Usuario WHERE u.Fecha >= '$startDate' AND u.Fecha <= '$endDate' ";
+    } 
 
     
-      $consulta = mysqli_query($conexion, "INSERT INTO gastos (ID_Gasto, Descripcion, Precio, Fecha, ID_Usuario) 
-                                            VALUES (NULL, '$c1', '$c2', '$c3', '$c4')");
-      if($consulta){
-        $alert = '<div class="alert alert-success d-flex align-items-center" role="alert">
-                  <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Warning:"><use xlink:href="#exclamation-triangle-fill"/></svg>
-                  <div>Datos guardados</div>
-                  </div>';
-      } else {
-        $alert = '<div class="alert alert-danger d-flex align-items-center" role="alert">
-                  <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Warning:"><use xlink:href="#exclamation-triangle-fill"/></svg>
-                  <div>Error al guardar</div>
-                  </div>';
-      }
+    $con = mysqli_query($conexion, $query);
+    if (!$con) {
+        die('Error en la consulta: ' . mysqli_error($conexion));
+    }
+
+} elseif (isset($_POST['action']) && $_POST['action'] == 'insert') {
+ 
+    if (!empty($_POST['cam1']) && !empty($_POST['cam2']) && !empty($_POST['cam3']) && !empty($_POST['cam4'])) {
+        $c1 = mysqli_real_escape_string($conexion, $_POST['cam1']);
+        $c2 = mysqli_real_escape_string($conexion, $_POST['cam2']);
+        $c3 = mysqli_real_escape_string($conexion, $_POST['cam3']);
+        $c4 = mysqli_real_escape_string($conexion, $_POST['cam4']);
     
-  }
+        $consulta = "INSERT INTO gastos (ID_Gasto, Descripcion, Precio, Fecha, ID_Usuario) 
+                     VALUES (NULL, '$c1', '$c2', '$c3', '$c4')";
+        $query = "SELECT u.ID_Gasto, u.Descripcion, u.Precio, u.Fecha, u.ID_Usuario, t.NombreUsuario 
+        FROM gastos u 
+        INNER JOIN usuario t ON u.ID_Usuario = t.ID_Usuario";
+        $resultado = mysqli_query($conexion, $consulta);
+        $con = mysqli_query($conexion, $query);
+    
+        if ($resultado) {
+            $alert = '<div class="alert alert-success d-flex align-items-center" role="alert">
+                      <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:">
+                      <use xlink:href="#check-circle-fill"/></svg>
+                      <div>Datos guardados</div>
+                      </div>';
+        } else {
+            $alert = '<div class="alert alert-danger d-flex align-items-center" role="alert">
+                      <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Error:">
+                      <use xlink:href="#exclamation-triangle-fill"/></svg>
+                      <div>Error al guardar: ' . mysqli_error($conexion) . '</div>
+                      </div>';
+        }
+    } else {
+       
+        $alert = '<div class="alert alert-danger d-flex align-items-center" role="alert">
+                  <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Warning:">
+                  <use xlink:href="#exclamation-triangle-fill"/></svg>
+                  <div>Todos los campos son obligatorios</div>
+                  </div>';
+    }
+
+
+} else {
+    $query = "SELECT u.ID_Gasto, u.Descripcion, u.Precio, u.Fecha, u.ID_Usuario, t.NombreUsuario 
+              FROM gastos u 
+              INNER JOIN usuario t ON u.ID_Usuario = t.ID_Usuario";
+
+
+    $con = mysqli_query($conexion, $query);
+    if (!$con) {
+        die('Error en la consulta: ' . mysqli_error($conexion));
+    }
 }
 ?>
 <!doctype html>
@@ -53,45 +92,53 @@ if(!empty($_POST)){
   <div class="d-flex justify-content-between align-items-center">
     <h2>Administración de gastos</h2>
     <button type="button" class="btn btn-primary" style="background-color:black;" data-bs-toggle="modal" data-bs-target="#exampleModal"><img src="Imagenes/add.png" height="16px" width="16px">
-      Nuevo Usuario
+      Nuevo Gasto
     </button>
   </div>
 </div>
+<div class="container">
+<form method="POST" action="">
+  <input type="hidden" name="action" value="filter">
+  <div class="row">
+    <div class="col">
+      <label for="startDate">Desde:</label>
+      <input type="date" class="form-control" id="startDate" name="startDate">
+    </div>
+    <div class="col">
+      <label for="endDate">Hasta:</label>
+      <input type="date" class="form-control" id="endDate" name="endDate">
+    </div>
+    <div class="col">
+      <label>&nbsp;</label>
+      <button type="submit" class="btn btn-primary">Filtrar</button>
+    </div>
+  </div>
+</form>
+</div>
 <br>
-    <div class="container" style="text-align:center">
-       
-        <?php echo isset($alert) ? $alert : ""; ?>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th scope="col">ID</th>
-                    <th scope="col">Descripcion</th>
-                    <th scope="col">Precio</th>
-                    <th scope="col">Fecha</th>
-                        <th scope="col">Personal</th>
-                        
-                        <th scope="col">Acciones</th>
-                  
-                </tr>
-            </thead>
-            <tbody>
-                <?php
-                $con = mysqli_query($conexion, "SELECT u.ID_Gasto, u.Descripcion, u.Precio, u.Fecha,u.ID_Usuario, t.NombreUsuario 
-                                                FROM gastos u 
-                                                INNER JOIN usuario t ON u.ID_Usuario = t.ID_Usuario");
-                while($datos = mysqli_fetch_assoc($con)) {
-                ?>
-                <tr>
-                    <td><?php echo $datos['ID_Gasto']; ?></td>
-                    <td><?php echo $datos['Descripcion']; ?></td>
-                    <td><?php echo $datos['Precio']; ?></td>
-                    <td><?php echo $datos['Fecha']; ?></td>
-                    
-                        <td><?php echo $datos['NombreUsuario']; ?></td>
-                        
-                        <td>
-                            <!-- Botón para editar -->
-                            <button type="button" class="btn btn-dark editBtn" 
+<div class="container" style="text-align:center">
+<?php echo isset($alert) ? $alert : ""; ?>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Descripcion</th>
+                <th scope="col">Precio</th>
+                <th scope="col">Fecha</th>
+                <th scope="col">Personal</th>
+                <th scope="col">Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php while($datos = mysqli_fetch_assoc($con)) { ?>
+            <tr>
+                <td><?php echo $datos['ID_Gasto']; ?></td>
+                <td><?php echo $datos['Descripcion']; ?></td>
+                <td><?php echo $datos['Precio']; ?></td>
+                <td><?php echo $datos['Fecha']; ?></td>
+                <td><?php echo $datos['NombreUsuario']; ?></td>
+                <td>
+                <button type="button" class="btn btn-dark editBtn" 
                                     data-id="<?php echo $datos['ID_Gasto']; ?>" 
                                     data-descripcion="<?php echo $datos['Descripcion']; ?>" 
                                     data-precio="<?php echo $datos['Precio']; ?>" 
@@ -105,14 +152,12 @@ if(!empty($_POST)){
                             <a href="../Servidor/borrar_gasto.php?id=<?php echo $datos['ID_Gasto']; ?>">
                                 <button type="button" class="btn btn-danger"><img src="Imagenes/cruz.png" height="16px" width="16px"></button>
                             </a>
-                        </td>
-                   
-                </tr>
-                <?php } ?>
-            </tbody>
-        </table>
-                    </div>
-    </div>
+                </td>
+            </tr>
+            <?php } ?>
+        </tbody>
+    </table>
+</div>
     <br><br>
    
     <!-- Modal Agregar -->
@@ -124,7 +169,8 @@ if(!empty($_POST)){
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form method="POST">
+                <form method="POST" action="">
+                    <input type="hidden" name="action" value="insert">
                         
                      
                         <div class="input-group flex-nowrap">
