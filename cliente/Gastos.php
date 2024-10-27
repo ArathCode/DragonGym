@@ -95,7 +95,7 @@ if (isset($_POST['action']) && $_POST['action'] == 'filter') {
     <div class="main">
         <div class="container" style="">
             <div class="d-flex justify-content-between align-items-center">
-                <h2>Administración de gastos</h2>
+                <h2>Administración de gastos kevin</h2>
                 <button type="button" class="btn btn-primary" style="background-color:black;" data-bs-toggle="modal"
                     data-bs-target="#exampleModal"><img src="Imagenes/add.png" height="16px" width="16px">
                     Nuevo Gasto
