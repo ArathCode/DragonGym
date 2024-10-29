@@ -58,7 +58,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['filtro'])) {
     exit;
 }
 
-$cone = mysqli_query($conexion, "SELECT COUNT(*) AS totalVisitasHoy FROM visitasDia WHERE fechaVisita = CURDATE() AND EstadoMembresia = 'Visita';");
+$cone = mysqli_query($conexion, "SELECT COUNT(*) AS totalVisitasHoy FROM visitasDia WHERE fechaVisita = CURDATE() AND Estado_Membresia = 'Visita';");
 
 if ($cone) {
     $visitasHoy = mysqli_fetch_assoc($cone); 
@@ -68,7 +68,7 @@ if ($cone) {
     echo "Error en la consulta de visitas: " . mysqli_error($conexion);
 }
 
-$cone = mysqli_query($conexion, "SELECT COUNT(*) AS totalMiembrosHoy FROM visitasDia WHERE fechaVisita = CURDATE() AND EstadoMembresia = 'Activo';");
+$cone = mysqli_query($conexion, "SELECT COUNT(*) AS totalMiembrosHoy FROM visitasDia WHERE fechaVisita = CURDATE() AND Estado_Membresia = 'Activo';");
 
 if ($cone) {
     $miembrosHoy = mysqli_fetch_assoc($cone); 
@@ -317,8 +317,8 @@ if ($cone) {
                         <?php include_once("../servidor/conexion.php");
                             $con = mysqli_query(
                             $conexion,
-                            //se llama a traer a todos los valores con los que se va a trabajar
-                            "SELECT Nombre, Apellidos,HoraEntrada,HoraSalida, EstadoMembresia FROM visitasDia;"
+                            
+                            "SELECT Nombre, Apellidos,horaIngreso,horaSalida, Estado_Membresia FROM visitasDia;"
                             );
                             $res = mysqli_num_rows($con);
                             while ($datos = mysqli_fetch_assoc($con)) {   
@@ -330,7 +330,7 @@ if ($cone) {
                                 <td><?php echo $datos['HoraEntrada'];?></td>
                                 <td><?php echo $datos['HoraSalida'];?></td>
 
-                                <td><span class="estado activo"><?php echo $datos['EstadoMembresia'];?></span></td>
+                                <td><span class="estado activo"><?php echo $datos['Estado_Membresia'];?></span></td>
                             </tr>
                             <?php   } ?>
                         </tbody>

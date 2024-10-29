@@ -99,7 +99,7 @@ if (!empty($_POST)) {
             <div class="d-flex justify-content-between align-items-center">
                 <h2>Miembros</h2>
                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                    <img src="Imagenes/add.png" height="16px" width="16px"> Nuevo Miembro
+                    <img src="imgs/add.png" height="16px" width="16px"> Nuevo Miembro
                 </button>
             </div>
         </div>
@@ -159,18 +159,18 @@ if (!empty($_POST)) {
                                         data-sexo="<?php echo $datos['Sexo']; ?>" 
                                         data-telefono="<?php echo $datos['Telefono']; ?>" 
                                         data-bs-toggle="modal" data-bs-target="#exampleModaledit">
-                                    <img src="Imagenes/lapiz.png" height="16px" width="16px">
+                                    <img src="imgs/lapiz.png" height="16px" width="16px">
                                 </button>
                         
                                 <a href="../servidor/borrar_miembro.php?id=<?php echo $datos['ID_Membresia']; ?>">
                                     <button type="button" class="btn btn-danger">
-                                        <img src="Imagenes/cruz.png" height="16px" width="16px">
+                                        <img src="imgs/cruz.png" height="16px" width="16px">
                                     </button>
                                 </a>
                                 <button type="button" class="btn btn-warning renovarBtn" data-id="<?php echo $datos['ID_Membresia']; ?>"
                                         data-fecha-inicio="<?php echo $datos['FechaInicio']; ?>" 
                                         data-bs-toggle="modal" data-bs-target="#renovarModal">
-                                    <img src="Imagenes/renovar.png" height="16px" width="16px">
+                                    <img src="imgs/renovar.png" height="16px" width="16px">
                                 </button>
                             </td>
                         </tr>
