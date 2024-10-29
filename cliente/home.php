@@ -237,46 +237,49 @@ if ($cone) {
                     </div>
                 </div>
                 <div class="botonV">
-                    <button class="agregarV" id="agregarVisitaBtn"><span>Agregar visita</span></button>
+                    <button class="agregarV" id="agregarVisitaBtn2"><span>Agregar visita</span></button>
 
                 </div>
                 
             </div>
             <!-- ================ Modal de visita ================= -->
-            <div id="openModal" class="modal">
+            <dialog id="openModal">
                 <div class="modal-content">
-                    <span id="closeModal" style="cursor:pointer;" class="close">&times;</span>
+                    <div class="cierre">
+                        <span class="close" onclick="cerrarModal('openModal')">×</span>
+                    </div>
+                    
                     <h2>Agregar visita</h2>
                     <form id="myForm" action="" method="POST">
                         <input type="hidden" name="action" value="agregar_visita"> 
-                        
+
                         <div class="imagenV">
                             <img src="imgs/Notificacion.gif" alt="Visita">
                         </div>
-                        
+
                         <div class="contenidoIn">
                             <div class="input-group">
                                 <input type="text" id="nombre" name="nombre" required>
                                 <label for="nombre">Nombre</label>
                             </div>
-                            
+
                             <div class="input-group">
                                 <input type="text" id="apellidoV" name="apellidoV" required>
                                 <label for="apellidoV">Apellidos</label>
                             </div>
-                            
+
                             <div class="input-group">
                                 <input type="number" id="precioV" name="precioV" required>
                                 <label for="precioV">Precio</label>
                             </div>
                         </div>
-                        
+
                         <div class="botonV">
                             <button class="agregarV" id="agregarVisitaBtn" type="submit"><span>Agregar visita</span></button>
                         </div>
                     </form>
                 </div>
-            </div>
+            </dialog>
 
             <!-- ================ Tabla de usuarios ================= -->
             <div class="details">
@@ -285,9 +288,12 @@ if ($cone) {
                     <h2>Lista de visitas</h2>
                     <a href="#" id="estadisticasBtn" class="btn">Gráfica</a>
                 </div>
-                <div id="modalEstadisticas" class="modal" style="display:none;">
+                <!-- ================ Modal de estadísticas ================= -->
+                <dialog id="modalEstadisticas">
                     <div class="modal-content">
-                        <span id="closeEstadisticas" style="cursor:pointer;" class="close">&times;</span>
+                        <div class="cierre">
+                            <span class="close" onclick="cerrarModal('modalEstadisticas')">×</span>
+                        </div>
                         <h2>Estadísticas de Visitas y Miembros</h2>
                         <canvas id="myChart"></canvas>
                         <div>
@@ -300,7 +306,7 @@ if ($cone) {
                             <button id="cargarDatos">Cargar Datos</button>
                         </div>
                     </div>
-                </div>
+                </dialog>
 
                     <table>
                         <thead>
@@ -314,26 +320,30 @@ if ($cone) {
                         </thead>
 
                         <tbody>
-                        <?php include_once("../servidor/conexion.php");
-                            $con = mysqli_query(
-                            $conexion,
-                            
-                            "SELECT Nombre, Apellidos,horaIngreso,horaSalida, Estado_Membresia FROM visitasDia;"
-                            );
+                            <?php 
+                            include_once("../servidor/conexion.php");
+
+                            $con = mysqli_query($conexion, "SELECT Nombre, Apellidos, Estado_Membresia, fechaVisita, horaIngreso, horaSalida FROM visitasDia WHERE fechaVisita = CURDATE();");
                             $res = mysqli_num_rows($con);
-                            while ($datos = mysqli_fetch_assoc($con)) {   
-                        ?>
 
-                            <tr>
-                                <td><?php echo $datos['Nombre'];?></td>
-                                <td><?php echo $datos['Apellidos'];?></td>
-                                <td><?php echo $datos['HoraEntrada'];?></td>
-                                <td><?php echo $datos['HoraSalida'];?></td>
-
-                                <td><span class="estado activo"><?php echo $datos['Estado_Membresia'];?></span></td>
-                            </tr>
-                            <?php   } ?>
+                            if ($res > 0) { 
+                                while ($datos = mysqli_fetch_assoc($con)) {   
+                            ?>
+                                <tr>
+                                    <td><?php echo htmlspecialchars($datos['Nombre']); ?></td>
+                                    <td><?php echo htmlspecialchars($datos['Apellidos']); ?></td>
+                                    <td><?php echo htmlspecialchars($datos['horaIngreso']); ?></td> 
+                                    <td><?php echo htmlspecialchars($datos['horaSalida']); ?></td> 
+                                    <td><span class="estado activo"><?php echo htmlspecialchars($datos['Estado_Membresia']); ?></span></td>
+                                </tr>
+                            <?php 
+                                }
+                            } else {
+                                echo '<tr><td colspan="5">No hay visitas registradas para hoy.</td></tr>'; 
+                            }
+                            ?>
                         </tbody>
+
                     </table>
                 </div>
 
