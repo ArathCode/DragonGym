@@ -71,7 +71,6 @@ if (!empty($_POST)) {
     <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
     <title>Miembros</title>
-    <script src="js/modalM.js"></script>
     <link rel="stylesheet" href="css/miembros.css">
 </head>
 <body>
@@ -150,7 +149,14 @@ if (!empty($_POST)) {
                             <td><?php echo $datos['Telefono']; ?></td>
                             <td><?php echo $datos['MesesT']; ?></td>
                             <td>
-                                <button type="button" class="btn-dark" onclick="openModal('exampleModaledit')" data-id="<?php echo $datos['ID_Membresia']; ?>">
+                                <button type="button" class="btn-dark" 
+                                        onclick="openModal('exampleModaledit')" 
+                                        data-id="<?php echo $datos['ID_Membresia']; ?>" 
+                                        data-nombre="<?php echo $datos['Nombre']; ?>" 
+                                        data-apellido-p="<?php echo $datos['ApellidoP']; ?>" 
+                                        data-apellido-m="<?php echo $datos['ApellidoM']; ?>" 
+                                        data-sexo="<?php echo $datos['Sexo']; ?>" 
+                                        data-telefono="<?php echo $datos['Telefono']; ?>">
                                     <img src="imgs/lapiz.png" height="16px" width="16px">
                                 </button>
                                 <a href="../servidor/borrar_miembro.php?id=<?php echo $datos['ID_Membresia']; ?>">
@@ -158,10 +164,14 @@ if (!empty($_POST)) {
                                         <img src="imgs/cruz.png" height="16px" width="16px">
                                     </button>
                                 </a>
-                                <button type="button" class="btn-warning" onclick="openModal('renovarModal')" data-id="<?php echo $datos['ID_Membresia']; ?>" data-fecha-inicio="<?php echo $datos['FechaInicio']; ?>">
+                                <button type="button" class="btn-warning" 
+                                        onclick="openModal('renovarModal')" 
+                                        data-id="<?php echo $datos['ID_Membresia']; ?>" 
+                                        data-fecha-inicio="<?php echo $datos['FechaInicio']; ?>">
                                     <img src="imgs/renovar.png" height="16px" width="16px">
                                 </button>
                             </td>
+
                         </tr>
                     <?php } ?>
                 </tbody>

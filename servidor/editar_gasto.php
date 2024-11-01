@@ -13,7 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   $result = mysqli_query($conexion, $query);
 
   if ($result) {
-    header("location:../cliente/Gastos.php");
+    header("../cliente/Gastos.php");
   } else {
     echo "Error al actualizar el usuario";
   }
