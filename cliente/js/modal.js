@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', function () {
     const openModal = document.getElementById('openModal');
     const modalEstadisticas = document.getElementById('modalEstadisticas');
-    const agregarVisitaBtn = document.getElementById('agregarVisitaBtn2'); // Cambiado a agregarVisitaBtn2
+    const agregarVisitaBtn = document.getElementById('agregarVisitaBtn2'); 
     const estadisticasBtn = document.getElementById('estadisticasBtn');
 
     openModal.close();

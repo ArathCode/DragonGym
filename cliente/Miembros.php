@@ -68,8 +68,10 @@ if (!empty($_POST)) {
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
     <title>Miembros</title>
+    <script src="js/modalM.js"></script>
     <link rel="stylesheet" href="css/miembros.css">
 </head>
 <body>
@@ -95,41 +97,37 @@ if (!empty($_POST)) {
             </div>
         </div>
 
-        <div class="container-fluid">
-            <div class="d-flex justify-content-between align-items-center">
-                <h2>Miembros</h2>
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                    <img src="imgs/add.png" height="16px" width="16px"> Nuevo Miembro
-                </button>
-            </div>
+        <div class="header-actions">
+            <h2>Miembros</h2>
+            <button type="button" class="btn-primary" onclick="openModal('exampleModal')">
+                <img src="imgs/add.png" height="16px" width="16px"> Nuevo Miembro
+            </button>
         </div>
 
         <?php if (isset($alert)) echo $alert; ?>
 
-        <div class="container-fluid">
+        <div class="form-group">
             <form method="GET" action="">
-                <div class="input-group mb-3">
-                    <input type="text" class="form-control" placeholder="Buscar por nombre" name="search" value="<?php echo $search; ?>">
-                    <button class="btn btn-outline-secondary" type="submit">Buscar</button>
-                </div>
+                <input type="text" class="input-control" placeholder="Buscar por nombre" name="search" value="<?php echo $search; ?>">
+                <button class="btn-secondary" type="submit">Buscar</button>
             </form>
         </div>
 
-        <div class="container" style="text-align:center">
-            <table class="table table-bordered">
+        <div class="table-container">
+            <table class="table">
                 <thead>
                     <tr>
-                        <th scope="col">ID Membresía</th>
-                        <th scope="col">Nombre</th>
-                        <th scope="col">Apellido Paterno</th>
-                        <th scope="col">Apellido Materno</th>
-                        <th scope="col">Sexo</th>
-                        <th scope="col">Categoria</th>
-                        <th scope="col">Fecha Inicio</th>
-                        <th scope="col">Fecha Fin</th>
-                        <th scope="col">Teléfono</th>
-                        <th scope="col">Meses Totales</th>
-                        <th scope="col">Acciones</th>
+                        <th>ID Membresía</th>
+                        <th>Nombre</th>
+                        <th>Apellido Paterno</th>
+                        <th>Apellido Materno</th>
+                        <th>Sexo</th>
+                        <th>Categoria</th>
+                        <th>Fecha Inicio</th>
+                        <th>Fecha Fin</th>
+                        <th>Teléfono</th>
+                        <th>Meses Totales</th>
+                        <th>Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -152,24 +150,15 @@ if (!empty($_POST)) {
                             <td><?php echo $datos['Telefono']; ?></td>
                             <td><?php echo $datos['MesesT']; ?></td>
                             <td>
-                                <button type="button" class="btn btn-dark editBtn" data-id="<?php echo $datos['ID_Membresia']; ?>" 
-                                        data-nombre="<?php echo $datos['Nombre']; ?>" 
-                                        data-apellido-p="<?php echo $datos['ApellidoP']; ?>" 
-                                        data-apellido-m="<?php echo $datos['ApellidoM']; ?>" 
-                                        data-sexo="<?php echo $datos['Sexo']; ?>" 
-                                        data-telefono="<?php echo $datos['Telefono']; ?>" 
-                                        data-bs-toggle="modal" data-bs-target="#exampleModaledit">
+                                <button type="button" class="btn-dark" onclick="openModal('exampleModaledit')" data-id="<?php echo $datos['ID_Membresia']; ?>">
                                     <img src="imgs/lapiz.png" height="16px" width="16px">
                                 </button>
-                        
                                 <a href="../servidor/borrar_miembro.php?id=<?php echo $datos['ID_Membresia']; ?>">
-                                    <button type="button" class="btn btn-danger">
+                                    <button type="button" class="btn-danger">
                                         <img src="imgs/cruz.png" height="16px" width="16px">
                                     </button>
                                 </a>
-                                <button type="button" class="btn btn-warning renovarBtn" data-id="<?php echo $datos['ID_Membresia']; ?>"
-                                        data-fecha-inicio="<?php echo $datos['FechaInicio']; ?>" 
-                                        data-bs-toggle="modal" data-bs-target="#renovarModal">
+                                <button type="button" class="btn-warning" onclick="openModal('renovarModal')" data-id="<?php echo $datos['ID_Membresia']; ?>" data-fecha-inicio="<?php echo $datos['FechaInicio']; ?>">
                                     <img src="imgs/renovar.png" height="16px" width="16px">
                                 </button>
                             </td>
@@ -179,147 +168,132 @@ if (!empty($_POST)) {
             </table>
         </div>
 
-        <!-- Modales (Renovar Membresía, Agregar Miembro, Editar Miembro) -->
-        <div class="modal fade" id="renovarModal" tabindex="-1" aria-labelledby="renovarModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="renovarModalLabel">Renovar Membresía</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <form method="POST" action="../servidor/renovar_membresia.php">
-                        <div class="modal-body">
-                            <input type="hidden" name="id_membresia" id="id_membresia_renovar">
-                            <div class="input-group flex-nowrap">
-                                <span class="input-group-text">Fecha de Inicio</span>
-                                <input type="date" class="form-control" id="fecha_inicio" name="fecha_inicio" required>
-                            </div>
-                            <br>
-                            <div class="input-group flex-nowrap">
-                                <span class="input-group-text">Duración</span>
-                                <select class="form-select" id="tipoMembresia" name="tipoMembresia" onchange="calcularTotal()" required>
-                                    <option value="Semana">Semana</option>
-                                    <option value="Mes">Mes</option>
-                                </select>
-                                <input type="number" class="form-control" id="cantidad" name="cantidad" placeholder="Número" oninput="calcularTotal()" required>
-                            </div>
-                            <br>
-                            <div class="input-group flex-nowrap">
-                                <span class="input-group-text">Fecha de Fin</span>
-                                <input type="date" class="form-control" id="fecha_fin" name="fecha_fin" readonly required>
-                            </div>
-                            <div class="form-group">
-                                <label for="total">Total:</label>
-                                <input type="text" id="total" name="total" class="form-control" readonly>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                            <button type="submit" class="btn btn-warning">Renovar</button>
-                        </div>
-                    </form>
+        <!-- Modal Renovar Membresía -->
+        <dialog id="renovarModal">
+            <div class="modal-content">
+                <div class="cierre">
+                    <span class="close" onclick="cerrarModal('renovarModal')">×</span>
                 </div>
+                <h5>Renovar Membresía</h5>
+                <form method="POST" action="../servidor/renovar_membresia.php">
+                    <input type="hidden" name="id_membresia" id="id_membresia_renovar">
+                    <div>
+                        <label>Fecha de Inicio</label>
+                        <input type="date" id="fecha_inicio" name="fecha_inicio" required>
+                    </div>
+                    <br>
+                    <div>
+                        <label>Duración</label>
+                        <select id="tipoMembresia" name="tipoMembresia" onchange="calcularTotal()" required>
+                            <option value="Semana">Semana</option>
+                            <option value="Mes">Mes</option>
+                        </select>
+                        <input type="number" id="cantidad" name="cantidad" placeholder="Número" oninput="calcularTotal()" required>
+                    </div>
+                    <br>
+                    <div>
+                        <label>Fecha de Fin</label>
+                        <input type="date" id="fecha_fin" name="fecha_fin" readonly required>
+                    </div>
+                    <div>
+                        <label>Total:</label>
+                        <input type="text" id="total" name="total" readonly>
+                    </div>
+                    <div>
+                        <button type="button" onclick="cerrarModal('renovarModal')">Cerrar</button>
+                        <button type="submit">Renovar</button>
+                    </div>
+                </form>
             </div>
-        </div>
+        </dialog>
 
         <!-- Modal Agregar Miembro -->
-        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Registro de Miembro</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <form method="POST" id="memberForm">
-                            <div class="input-group flex-nowrap">
-                                <span class="input-group-text">Nombre</span>
-                                <input type="text" class="form-control" name="nombre" required>
-                            </div>
-                            <br>
-                            <div class="input-group flex-nowrap">
-                                <span class="input-group-text">Apellido Paterno</span>
-                                <input type="text" class="form-control" name="apellido_p" required>
-                            </div>
-                            <br>
-                            <div class="input-group flex-nowrap">
-                                <span class="input-group-text">Apellido Materno</span>
-                                <input type="text" class="form-control" name="apellido_m" required>
-                            </div>
-                            <br>
-                            <div class="input-group flex-nowrap">
-                                <span class="input-group-text">Sexo</span>
-                                <select class="form-select" name="sexo" required>
-                                    <option value="Masculino">Masculino</option>
-                                    <option value="Femenino">Femenino</option>
-                                </select>
-                            </div>
-                            <br>
-                            <div class="input-group flex-nowrap">
-                                <span class="input-group-text">Teléfono</span>
-                                <input type="text" class="form-control" name="telefono" required>
-                            </div>
-                            <br>
-                            <button type="submit" class="btn btn-primary">Agregar Miembro</button>
-                        </form>
-                    </div>
+        <dialog id="exampleModal">
+            <div class="modal-content">
+                <div class="cierre">
+                    <span class="close" onclick="cerrarModal('exampleModal')">×</span>
                 </div>
+                <h5>Registro de Miembro</h5>
+                <form method="POST" id="memberForm">
+                    <div>
+                        <label>Nombre</label>
+                        <input type="text" name="nombre" required>
+                    </div>
+                    <br>
+                    <div>
+                        <label>Apellido Paterno</label>
+                        <input type="text" name="apellido_p" required>
+                    </div>
+                    <br>
+                    <div>
+                        <label>Apellido Materno</label>
+                        <input type="text" name="apellido_m" required>
+                    </div>
+                    <br>
+                    <div>
+                        <label>Sexo</label>
+                        <select name="sexo" required>
+                            <option value="Masculino">Masculino</option>
+                            <option value="Femenino">Femenino</option>
+                        </select>
+                    </div>
+                    <br>
+                    <div>
+                        <label>Teléfono</label>
+                        <input type="text" name="telefono" required>
+                    </div>
+                    <br>
+                    <button type="submit">Agregar Miembro</button>
+                </form>
             </div>
-        </div>
+        </dialog>
 
         <!-- Modal Editar Miembro -->
-        <div class="modal fade" id="exampleModaledit" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Editar Miembro</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <form method="POST" action="../servidor/editar_miembro.php">
-                            <input type="hidden" name="id_membresia" id="id_membresia_edit">
-                            <div class="input-group flex-nowrap">
-                                <span class="input-group-text">Nombre</span>
-                                <input type="text" class="form-control" id="nombre_edit" name="nombre" required>
-                            </div>
-                            <br>
-                            <div class="input-group flex-nowrap">
-                                <span class="input-group-text">Apellido Paterno</span>
-                                <input type="text" class="form-control" id="apellido_p_edit" name="apellido_p" required>
-                            </div>
-                            <br>
-                            <div class="input-group flex-nowrap">
-                                <span class="input-group-text">Apellido Materno</span>
-                                <input type="text" class="form-control" id="apellido_m_edit" name="apellido_m" required>
-                            </div>
-                            <br>
-                            <div class="input-group flex-nowrap">
-                                <span class="input-group-text">Sexo</span>
-                                <select class="form-select" id="sexo_edit" name="sexo" required>
-                                    <option value="Masculino">Masculino</option>
-                                    <option value="Femenino">Femenino</option>
-                                </select>
-                            </div>
-                            <br>
-                            <div class="input-group flex-nowrap">
-                                <span class="input-group-text">Teléfono</span>
-                                <input type="text" class="form-control" id="telefono_edit" name="telefono" required>
-                            </div>
-                            <br>
-                            <button type="submit" class="btn btn-warning">Actualizar Miembro</button>
-                        </form>
-                    </div>
+        <dialog id="exampleModaledit">
+            <div class="modal-content">
+                <div class="cierre">
+                    <span class="close" onclick="cerrarModal('exampleModaledit')">×</span>
                 </div>
+                <h5>Editar Miembro</h5>
+                <form method="POST" action="../servidor/editar_miembro.php">
+                    <input type="hidden" name="id_membresia" id="id_membresia_edit">
+                    <div>
+                        <label>Nombre</label>
+                        <input type="text" id="nombre_edit" name="nombre" required>
+                    </div>
+                    <br>
+                    <div>
+                        <label>Apellido Paterno</label>
+                        <input type="text" id="apellido_p_edit" name="apellido_p" required>
+                    </div>
+                    <br>
+                    <div>
+                        <label>Apellido Materno</label>
+                        <input type="text" id="apellido_m_edit" name="apellido_m" required>
+                    </div>
+                    <br>
+                    <div>
+                        <label>Sexo</label>
+                        <select id="sexo_edit" name="sexo" required>
+                            <option value="Masculino">Masculino</option>
+                            <option value="Femenino">Femenino</option>
+                        </select>
+                    </div>
+                    <br>
+                    <div>
+                        <label>Teléfono</label>
+                        <input type="text" id="telefono_edit" name="telefono" required>
+                    </div>
+                    <br>
+                    <button type="submit">Actualizar Miembro</button>
+                </form>
             </div>
-        </div>
+        </dialog>
+
 
     </div>
 </div>
-<footer>
-    
-</footer>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"></script>
+
 <script src="js/miembros.js"></script>
 </body>
 </html>

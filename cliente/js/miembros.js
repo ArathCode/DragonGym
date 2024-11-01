@@ -1,15 +1,49 @@
 document.addEventListener("DOMContentLoaded", () => {
-    const renovarBtns = document.querySelectorAll(".renovarBtn");
+    const renovarModal = document.getElementById('renovarModal');
+    const exampleModal = document.getElementById('exampleModal');
+    const exampleModaledit = document.getElementById('exampleModaledit');
+
+    window.openModal = function(modalId) {
+        const modal = document.getElementById(modalId);
+        if (!modal) return; 
+
+        const modales = document.querySelectorAll('dialog');
+        modales.forEach(mod => {
+            if (mod !== modal && mod.open) {
+                mod.close();
+            }
+        });
+        modal.showModal();
+    };
+
+    window.cerrarModal = function(modalId) {
+        const modal = document.getElementById(modalId);
+        if (modal) {
+            modal.close();
+        }
+    };
+
+    document.querySelectorAll('.close').forEach(closeBtn => {
+        closeBtn.addEventListener('click', function () {
+            const dialog = closeBtn.closest('dialog');
+            if (dialog) {
+                cerrarModal(dialog.id);
+            }
+        });
+    });
+
+    const renovarBtns = document.querySelectorAll(".btn-warning");
     renovarBtns.forEach(btn => {
         btn.addEventListener("click", function() {
             const idMembresia = this.getAttribute("data-id");
             const fechaInicio = this.getAttribute("data-fecha-inicio");
             document.getElementById("id_membresia_renovar").value = idMembresia;
             document.getElementById("fecha_inicio").value = fechaInicio;
+            openModal('renovarModal'); 
         });
     });
 
-    const editBtns = document.querySelectorAll(".editBtn");
+    const editBtns = document.querySelectorAll(".btn-dark");
     editBtns.forEach(btn => {
         btn.addEventListener("click", function() {
             const idMembresia = this.getAttribute("data-id");
@@ -25,6 +59,7 @@ document.addEventListener("DOMContentLoaded", () => {
             document.getElementById("apellido_m_edit").value = apellidoM;
             document.getElementById("sexo_edit").value = sexo;
             document.getElementById("telefono_edit").value = telefono;
+            openModal('exampleModaledit'); 
         });
     });
 });
@@ -47,4 +82,17 @@ function calcularTotal() {
 
     const fechaFinInput = document.getElementById("fecha_fin");
     fechaFinInput.value = fechaFinDate.toISOString().split('T')[0];
+
+    const total = calcularPrecio(tipoMembresia, cantidad);
+    document.getElementById("total").value = total.toFixed(2);
+}
+
+function calcularPrecio(tipo, cantidad) {
+    let precioPorUnidad;
+    if (tipo === "Semana") {
+        precioPorUnidad = 100; 
+    } else if (tipo === "Mes") {
+        precioPorUnidad = 300; 
+    }
+    return precioPorUnidad * cantidad;
 }
