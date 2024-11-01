@@ -84,10 +84,12 @@ if (!empty($_POST)) {
                 <ion-icon name="menu-outline"></ion-icon>
             </div>
             <div class="search">
-                <label>
-                    <input type="text" placeholder="Buscar miembro">
-                    <ion-icon name="search-outline"></ion-icon>
-                </label>
+                <form method="GET" action="">
+                    <label>
+                        <input type="text" class="input-control" placeholder="Buscar por nombre" name="search" value="<?php echo $search; ?>">
+                        <ion-icon name="search-outline"></ion-icon>
+                    </label>
+                </form>
             </div>
             <div class="contenedor">
                 <div class="usuario">
@@ -105,12 +107,6 @@ if (!empty($_POST)) {
 
         <?php if (isset($alert)) echo $alert; ?>
 
-        <div class="form-group">
-            <form method="GET" action="">
-                <input type="text" class="input-control" placeholder="Buscar por nombre" name="search" value="<?php echo $search; ?>">
-                <button class="btn-secondary" type="submit">Buscar</button>
-            </form>
-        </div>
 
         <div class="table-container">
             <table class="table">
@@ -182,9 +178,10 @@ if (!empty($_POST)) {
         <dialog id="renovarModal">
             <div class="modal-content">
                 <div class="cierre">
+                <h2>Renovar Membresía</h2>
                     <span class="close" onclick="cerrarModal('renovarModal')">×</span>
                 </div>
-                <h5>Renovar Membresía</h5>
+                
                 <form method="POST" action="../servidor/renovar_membresia.php">
                     <input type="hidden" name="id_membresia" id="id_membresia_renovar">
                     <div>
@@ -200,16 +197,15 @@ if (!empty($_POST)) {
                         </select>
                         <input type="number" id="cantidad" name="cantidad" placeholder="Número" oninput="calcularTotal()" required>
                     </div>
-                    <br>
-                    <div>
-                        <label>Fecha de Fin</label>
+                    <div class="input-group">
                         <input type="date" id="fecha_fin" name="fecha_fin" readonly required>
+                        <label>Fecha de Fin</label>
                     </div>
-                    <div>
-                        <label>Total:</label>
+                    <div class="input-group">
                         <input type="text" id="total" name="total" readonly>
+                        <label>Total:</label>
                     </div>
-                    <div>
+                    <div class="input-group">
                         <button type="button" onclick="cerrarModal('renovarModal')">Cerrar</button>
                         <button type="submit">Renovar</button>
                     </div>
@@ -221,38 +217,34 @@ if (!empty($_POST)) {
         <dialog id="exampleModal">
             <div class="modal-content">
                 <div class="cierre">
+                    <h2>Registro de Miembro</h2>
                     <span class="close" onclick="cerrarModal('exampleModal')">×</span>
                 </div>
-                <h5>Registro de Miembro</h5>
+                
                 <form method="POST" id="memberForm">
-                    <div>
-                        <label>Nombre</label>
+                    <div class="input-group">
                         <input type="text" name="nombre" required>
+                        <label>Nombre</label>
                     </div>
-                    <br>
-                    <div>
-                        <label>Apellido Paterno</label>
+                    <div class="input-group">
                         <input type="text" name="apellido_p" required>
+                        <label>Apellido Paterno</label>
                     </div>
-                    <br>
-                    <div>
-                        <label>Apellido Materno</label>
+                    <div class="input-group">
                         <input type="text" name="apellido_m" required>
+                        <label>Apellido Materno</label>
                     </div>
-                    <br>
-                    <div>
+                    <div class="">
                         <label>Sexo</label>
                         <select name="sexo" required>
                             <option value="Masculino">Masculino</option>
                             <option value="Femenino">Femenino</option>
                         </select>
                     </div>
-                    <br>
-                    <div>
-                        <label>Teléfono</label>
+                    <div class="input-group">
                         <input type="text" name="telefono" required>
+                        <label>Teléfono</label>
                     </div>
-                    <br>
                     <button type="submit">Agregar Miembro</button>
                 </form>
             </div>
@@ -262,39 +254,35 @@ if (!empty($_POST)) {
         <dialog id="exampleModaledit">
             <div class="modal-content">
                 <div class="cierre">
+                    <h2>Editar Miembro</h2>
                     <span class="close" onclick="cerrarModal('exampleModaledit')">×</span>
                 </div>
-                <h5>Editar Miembro</h5>
+                
                 <form method="POST" action="../servidor/editar_miembro.php">
                     <input type="hidden" name="id_membresia" id="id_membresia_edit">
-                    <div>
-                        <label>Nombre</label>
+                    <div class="input-group">
                         <input type="text" id="nombre_edit" name="nombre" required>
+                        <label>Nombre</label>
                     </div>
-                    <br>
-                    <div>
-                        <label>Apellido Paterno</label>
+                    <div class="input-group">
                         <input type="text" id="apellido_p_edit" name="apellido_p" required>
+                        <label>Apellido Paterno</label>
                     </div>
-                    <br>
-                    <div>
-                        <label>Apellido Materno</label>
+                    <div class="input-group">
                         <input type="text" id="apellido_m_edit" name="apellido_m" required>
+                        <label>Apellido Materno</label>
                     </div>
-                    <br>
-                    <div>
+                    <div class="">
                         <label>Sexo</label>
                         <select id="sexo_edit" name="sexo" required>
                             <option value="Masculino">Masculino</option>
                             <option value="Femenino">Femenino</option>
                         </select>
                     </div>
-                    <br>
-                    <div>
-                        <label>Teléfono</label>
+                    <div class="input-group">
                         <input type="text" id="telefono_edit" name="telefono" required>
+                        <label>Teléfono</label>
                     </div>
-                    <br>
                     <button type="submit">Actualizar Miembro</button>
                 </form>
             </div>

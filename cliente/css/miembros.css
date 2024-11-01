@@ -229,18 +229,14 @@ body {
   object-fit: cover;
 }
 /* Vencifdo y vigente*/
+
 .vencido {
-  background-color: #f8d7da; 
-}
-.vigente {
-  background-color: #d4edda; 
-}
-.vencido {
-  background-color: rgba(255, 0, 0, 0.2);
+  background-color: #fff1f1;
+  color: var(--red);
 }
 
 .vigente {
-  background-color: rgba(0, 255, 0, 0.2);
+  background-color: #f2fdf0;
 }
 
 
@@ -252,16 +248,41 @@ body {
   vertical-align: middle;
 }
 
+/* Tablas */
+.table-container {
+  overflow-x: auto;
+  width: 95%;
+  margin: auto;
+}
+
 .table {
+  width: 100%;
+  border-collapse: collapse;
   text-align: center;
 }
 
+.table th, .table td {
+  padding: 12px;
+  font-weight: 600;
+
+}
+.table tr{
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+.table tr:last-child{
+  border-bottom: none;
+}
+
+.table tr td:last-child{
+  text-align: end;
+}
 /* Cambios quitando bootstrap*/
 
 /* Container styles */
 .header-actions {
   display: flex;
   justify-content: space-between;
+  padding: 30px 30px;
   align-items: center;
 }
 
@@ -291,39 +312,97 @@ body {
   margin-right: 10px;
 }
 
-/* Table styles */
-.table-container {
-  overflow-x: auto;
-  width: 95%;
-  margin: auto;
-}
 
-.table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-.table th, .table td {
-  padding: 12px;
-  border: 1px solid #ddd;
-}
-
-/* Modal styles */
+/* Modales */
 dialog {
   position: fixed;
-  top: 0;
+  z-index: 9999;
   left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0);
+  border: none; 
+  align-items: center;
+  justify-content: center;
+  margin: 0; 
+  padding: 0;
+  box-shadow: none;
+}
+dialog[open] {
+  display: flex; 
 }
 
 dialog .modal-content {
-  background: white;
-  margin: auto;
+  background-color: #fff;
   padding: 20px;
-  max-width: 500px;
-  border-radius: 5px;
+  border: none;   
+  width: 80%;
+  max-width: 600px;
+  border-radius: 8px;
+}
+.modal-content .cierre{
+  width: 100%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 50%;
+  margin-bottom: 20px;
+}
+.cierre span{
+  font-size: 40px;
+}
+.cierre h2{
+  display: inline-block;
+}
+dialog h2 {
+  color: var(--red);
+}
+
+dialog .input-group {
+  position: relative;
+  margin: 20px 0;
+}
+/* Inputs de los dialogs */
+.input-group {
+  position: relative; 
+  width: 40%;
+  margin-bottom: 10px;
+  margin-top: 10px;
+}
+
+.input-group label {
+  position: absolute;
+  top: 50%; 
+  left: 15px;
+  transform: translateY(-50%);
+  font-size: 16px;
+  color: #555;
+  padding: 0 5px;
+  pointer-events: none;
+  transition: 0.2s ease;
+  background-color: white;
+}
+
+.input-group input {
+  width: 100%; 
+  padding: 15px 10px 5px 15px; 
+  border: 1.2px solid black;
+  border-radius: 10px;
+  outline: none;
+  font-size: 16px;
+}
+
+.input-group input:focus ~ label,
+.input-group input:not(:placeholder-shown) ~ label {
+  top: -8px; 
+  left: 10px;
+  font-size: 12px;
+  color: #333;
+  padding: 0 5px;
+  transform: none; 
 }
 
 /* ======== Media Queries para pantallas pequeñas ======== */

@@ -722,7 +722,9 @@ dialog {
 dialog[open] {
   display: flex; 
 }
-
+dialog .close{
+  cursor: pointer;
+}
 dialog .modal-content {
   background-color: #fff;
   padding: 20px;
