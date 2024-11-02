@@ -3,6 +3,15 @@ document.addEventListener("DOMContentLoaded", () => {
     const exampleModal = document.getElementById('exampleModal');
     const exampleModaledit = document.getElementById('exampleModaledit');
 
+    const toggle = document.querySelector('.toggle');
+    const navigation = document.querySelector('.navigation');
+    const main = document.querySelector('.main');
+
+    toggle.addEventListener('click', () => {
+        navigation.classList.toggle('active');
+        main.classList.toggle('active');
+    });
+
     window.openModal = function(modalId) {
         const modal = document.getElementById(modalId);
         if (!modal) return; 
