@@ -276,7 +276,6 @@ body {
 .table tr td:last-child{
   text-align: end;
 }
-/* Cambios quitando bootstrap*/
 
 /* Container styles */
 .header-actions {
@@ -295,7 +294,7 @@ body {
   border-radius: 4px;
 }
 
-.btn-primary { background-color: #007bff; }
+.btn-primary { background-color: var(--red); }
 .btn-secondary { background-color: #6c757d; }
 .btn-dark { background-color: #343a40; }
 .btn-warning { background-color: #ffc107; }
@@ -340,19 +339,24 @@ dialog .modal-content {
   padding: 20px;
   border: none;   
   width: 80%;
-  max-width: 600px;
+  max-width: 620px;
   border-radius: 8px;
 }
+
 .modal-content .cierre{
   width: 100%;
   cursor: pointer;
   display: flex;
   align-items: center;
-  gap: 50%;
+  justify-content: space-between;
   margin-bottom: 20px;
 }
 .cierre span{
   font-size: 40px;
+  color: #999;
+}
+.cierre span:hover{
+  color: var(--red);
 }
 .cierre h2{
   display: inline-block;
@@ -365,10 +369,34 @@ dialog .input-group {
   position: relative;
   margin: 20px 0;
 }
+.imagenMiembro{
+  width: 40%;
+}
+.imagenMiembro img{
+  width: 100%;
+}
+.cont{
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 10px;
+}
+#renovarModal form,
+#exampleModaledit form{
+  width: 70%;
+  margin: auto;
+  align-items: center;
+  justify-content: center;
+}
+
 /* Inputs de los dialogs */
+.memberF{
+  width: 40%;
+}
+
 .input-group {
   position: relative; 
-  width: 40%;
+  width: 90%;
   margin-bottom: 10px;
   margin-top: 10px;
 }

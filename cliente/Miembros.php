@@ -206,8 +206,7 @@ if (!empty($_POST)) {
                         <label>Total:</label>
                     </div>
                     <div class="input-group">
-                        <button type="button" onclick="cerrarModal('renovarModal')">Cerrar</button>
-                        <button type="submit">Renovar</button>
+                        <button class="btn-primary" type="submit">Renovar</button>
                     </div>
                 </form>
             </div>
@@ -220,33 +219,41 @@ if (!empty($_POST)) {
                     <h2>Registro de Miembro</h2>
                     <span class="close" onclick="cerrarModal('exampleModal')">×</span>
                 </div>
+                <div class="cont">
+                    <div class="imagenMiembro">
+                        <img src="imgs/PersonaHome.jpg" alt="Imagen de referencia">
+                    </div>
+                    <div class="memberF">
+                        <form method="POST" id="memberForm">
+                            <div class="input-group">
+                                <input type="text" name="nombre" required>
+                                <label>Nombre</label>
+                            </div>
+                            <div class="input-group">
+                                <input type="text" name="apellido_p" required>
+                                <label>Apellido Paterno</label>
+                            </div>
+                            <div class="input-group">
+                                <input type="text" name="apellido_m" required>
+                                <label>Apellido Materno</label>
+                            </div>
+                            <div class="">
+                                <label>Sexo</label>
+                                <select name="sexo" required>
+                                    <option value="Masculino">Masculino</option>
+                                    <option value="Femenino">Femenino</option>
+                                </select>
+                            </div>
+                            <div class="input-group">
+                                <input type="text" name="telefono" required>
+                                <label>Teléfono</label>
+                            </div>
+                            <button class="btn-primary" type="submit">Agregar Miembro</button>
+                        </form>
+                    </div>
+                </div>
                 
-                <form method="POST" id="memberForm">
-                    <div class="input-group">
-                        <input type="text" name="nombre" required>
-                        <label>Nombre</label>
-                    </div>
-                    <div class="input-group">
-                        <input type="text" name="apellido_p" required>
-                        <label>Apellido Paterno</label>
-                    </div>
-                    <div class="input-group">
-                        <input type="text" name="apellido_m" required>
-                        <label>Apellido Materno</label>
-                    </div>
-                    <div class="">
-                        <label>Sexo</label>
-                        <select name="sexo" required>
-                            <option value="Masculino">Masculino</option>
-                            <option value="Femenino">Femenino</option>
-                        </select>
-                    </div>
-                    <div class="input-group">
-                        <input type="text" name="telefono" required>
-                        <label>Teléfono</label>
-                    </div>
-                    <button type="submit">Agregar Miembro</button>
-                </form>
+                
             </div>
         </dialog>
 
@@ -283,7 +290,7 @@ if (!empty($_POST)) {
                         <input type="text" id="telefono_edit" name="telefono" required>
                         <label>Teléfono</label>
                     </div>
-                    <button type="submit">Actualizar Miembro</button>
+                    <button class="btn-primary" type="submit">Actualizar Miembro</button>
                 </form>
             </div>
         </dialog>
