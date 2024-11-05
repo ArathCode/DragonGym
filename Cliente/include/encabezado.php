@@ -58,7 +58,7 @@ footer {
                     <a href="Uusaurios.php" class="btn btn-primary " style="background-color: black ;   border-color:black ;font-weight: bold;">Usuarios</a>
                     <a href="Miembros.php" class="btn btn-primary" style="background-color: black ;border-color:black ;font-weight: bold;">Miembros</a>
                     <a href="Gastos.php" class="btn btn-primary" style="background-color: black;  border-color:black;font-weight: bold; ">Productos</a>
-                    <a href="Promociones.php" class="btn btn-primary" style="background-color: black;  border-color:black;font-weight: bold; ">Promociones</a>
+                    <a href="ControlPersonal.php" class="btn btn-primary" style="background-color: black;  border-color:black;font-weight: bold; ">Promociones</a>
                     <a href="Reportes.php" class="btn btn-primary" style="background-color: black;  border-color:black;font-weight: bold; ">Reportes</a>
                     <a href="Salir.php" class="btn btn-primary" style="background-color: black;  border-color:black;font-weight: bold; ">Salir</a>
                    <?php } ?>
