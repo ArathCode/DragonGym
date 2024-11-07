@@ -1,8 +1,9 @@
 <?php
 include_once("../servidor/conexion.php");
-
+$search = isset($_GET['search']) ? $_GET['search'] : '';
 $alert = ""; 
 $filterQuery = "";
+
 
 if (isset($_POST['action']) && $_POST['action'] == 'filter') {
     
@@ -12,7 +13,7 @@ if (isset($_POST['action']) && $_POST['action'] == 'filter') {
         $filterQuery = " ";
         $query = "SELECT u.ID_Gasto, u.Descripcion, u.Precio, u.Fecha, u.ID_Usuario, t.NombreUsuario 
               FROM gastos u 
-              INNER JOIN usuario t ON u.ID_Usuario = t.ID_Usuario WHERE u.Fecha >= '$startDate' AND u.Fecha <= '$endDate' ";
+              INNER JOIN usurio t ON u.ID_Usuario = t.ID_Usuario WHERE u.Fecha >= '$startDate' AND u.Fecha <= '$endDate' ";
     } 
 
     
@@ -309,6 +310,7 @@ if (isset($_POST['action']) && $_POST['action'] == 'filter') {
             });
         });
     </script>
+    <script src="js/gastos.js"></script>
 
 </body>
 

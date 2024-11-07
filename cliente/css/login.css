@@ -134,9 +134,10 @@ form a {
     display: flex;
     justify-content: center;
     margin: auto;
+    width: 50%;
 }
 .content .logo{
-    width: 300px;
+    width: 100%;
 }
 form a:hover, .sign-up-btn:hover, .join-us-btn:hover {
     opacity: 0.8;
