@@ -1,0 +1,81 @@
+@import url("https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&display=swap");
+
+*{
+    margin: 0;
+    padding: 0;
+}
+:root {
+    --red: #8d2e27;
+    --white: #fff;
+    --gray: #f5f5f5;
+    --black1: #222;
+    --black2: #999;
+    --estado: rgb(40, 99, 46);
+  }
+.encabezado{
+    width: 100%;
+    background-color: black;
+    
+}
+.encabezado .imagen{
+    width: 100px;
+    margin: auto;
+}
+.encabezado img{
+    width: 200px;
+}
+
+/*  Titulo del contenido   */
+.titulo{
+    font-weight: 500;
+    font-size: 30px;
+    width: 100%;
+    color: var(--red);
+    text-align: center;
+    margin: 3y0px 10px;
+}
+
+/* Formulario */
+.formulario{
+    width: 40%;
+    
+}
+/*  Contenido de input   */
+.contenidoIn {
+    width: 45%;
+    display: inline-block;
+    margin: 10px;
+  }
+.input-group{
+    position: relative;
+    margin: 20px;
+}
+.input-group label {
+    position: absolute;
+    top: 50%;
+    left: 5px;
+    transform: translateY(-50%);
+    font-size: 16px;
+    color: black;
+    padding: 0 5px;
+    pointer-events: none;
+    transition: .2s;
+  }
+  
+  .input-group input {
+    width: 220px;
+    height: 40px;
+    font-size: 16px;
+    color: var(--red);
+    padding: 0 10px;
+    background: transparent;
+    border: 1.2px solid black;
+    border-radius: 10px;
+    outline: none;
+  }
+  .input-group input:focus ~ label,
+.input-group input:valid ~ label {
+  top: 0;
+  font-size: 12px;
+  background-color: white;
+}

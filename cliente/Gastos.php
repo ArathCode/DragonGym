@@ -79,8 +79,9 @@ if (isset($_POST['action']) && $_POST['action'] == 'filter') {
     <link rel="shortcut icon" href="imgs/logo.jpg" />
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <title>Administración de Usuarios</title>
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+    <title>Administración de Gastos</title>
     <link rel="stylesheet" href="css/gastos.css">
 
 </head>
@@ -93,28 +94,46 @@ if (isset($_POST['action']) && $_POST['action'] == 'filter') {
             ?>     
     </div>
     <div class="main">
-        <div class="container" style="">
-            <div class="d-flex justify-content-between align-items-center">
-                <h2>Administración de gastos kevin</h2>
+    <div class="topbar">
+            <div class="toggle">
+                <ion-icon name="menu-outline"></ion-icon>
+            </div>
+            <div class="search">
+                <form method="GET" action="">
+                    <label>
+                        <input type="text" class="input-control" placeholder="Buscar gasto" name="search" value="<?php echo $search; ?>">
+                        <ion-icon name="search-outline"></ion-icon>
+                    </label>
+                </form>
+            </div>
+            <div class="contenedor">
+                <div class="usuario">
+                    <img src="https://i.pinimg.com/originals/a0/14/7a/a0147adf0a983ab87e86626f774785cf.gif" alt="">
+                </div>
+            </div>
+        </div>
+        <div class="agregarGasto" >
+            <div >
+                <h2>Administración de gastos</h2>
                 <button type="button" class="btn btn-primary" style="background-color:black;" data-bs-toggle="modal"
                     data-bs-target="#exampleModal"><img src="Imagenes/add.png" height="16px" width="16px">
                     Nuevo Gasto
                 </button>
             </div>
         </div>
-        <div class="container">
+        <div class="filtrosG">
             <form method="POST" action="">
-                <input type="hidden" name="action" value="filter">
-                <div class="row">
-                    <div class="col">
+                <div class="filtrosI">
+                    <input type="hidden" name="action" value="filter">
+                    <div >
                         <label for="startDate">Desde:</label>
                         <input type="date" class="form-control" id="startDate" name="startDate">
                     </div>
-                    <div class="col">
+                    <div >
                         <label for="endDate">Hasta:</label>
                         <input type="date" class="form-control" id="endDate" name="endDate">
                     </div>
-                    <div class="col">
+                    <div >
                         <label>&nbsp;</label>
                         <button type="submit" class="btn btn-primary">Filtrar</button>
                     </div>
@@ -122,7 +141,7 @@ if (isset($_POST['action']) && $_POST['action'] == 'filter') {
             </form>
         </div>
         <br>
-        <div class="container" style="text-align:center">
+        <div class="table-container" >
             <?php echo isset($alert) ? $alert : ""; ?>
             <table class="table">
                 <thead>
@@ -270,9 +289,7 @@ if (isset($_POST['action']) && $_POST['action'] == 'filter') {
         </div>
     </div>
     
-    <footer>
-        
-    </footer>
+
     <script>
         document.querySelectorAll('.editBtn').forEach(button => {
             button.addEventListener('click', function () {
@@ -293,7 +310,6 @@ if (isset($_POST['action']) && $_POST['action'] == 'filter') {
         });
     </script>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>

@@ -287,7 +287,8 @@ body {
 
 /* Button styles */
 .btn-primary, .btn-secondary, .btn-dark, .btn-warning, .btn-danger {
-  padding: 10px 15px;
+  padding: 10px;
+  margin: 3px;
   color: #fff;
   border: none;
   cursor: pointer;

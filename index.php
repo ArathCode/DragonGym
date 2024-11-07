@@ -61,7 +61,7 @@ if (!empty($_SESSION['activa'])) {
                     <input type="password" id="contra" name="contra" required>
                     <label for="contra">Contraseña</label>
                 </div>
-                <a href="#">¿Olvidó la contraseña?</a>
+                <a href="servidor/recuperarContra.php">¿Olvidó la contraseña?</a>
                 <button type="submit" class="login">
                     <span>Ingresar</span>
                 </button>
