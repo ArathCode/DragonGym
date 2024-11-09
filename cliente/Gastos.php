@@ -91,7 +91,7 @@ if (isset($_POST['action']) && $_POST['action'] == 'filter') {
     <div class="container" id="menu">
         <div class="navigation">
              <?php
-                include_once("include/encabezado.php")
+               include_once ("include/encabezado.php")
             ?>     
     </div>
     <div class="main">
@@ -114,10 +114,10 @@ if (isset($_POST['action']) && $_POST['action'] == 'filter') {
             </div>
         </div>
         <div class="agregarGasto" >
-            <div >
-                <h2>Administración de gastos</h2>
-                <button type="button" class="btn btn-primary" style="background-color:black;" data-bs-toggle="modal"
-                    data-bs-target="#exampleModal"><img src="Imagenes/add.png" height="16px" width="16px">
+        <h2>Administración de gastos</h2>
+            <div class="gB">
+                <button type="button" class="agregarGB" onclick="openModal('exampleModal')">
+                    <img src="imgs/add.png" height="16px" width="16px">
                     Nuevo Gasto
                 </button>
             </div>
@@ -136,7 +136,7 @@ if (isset($_POST['action']) && $_POST['action'] == 'filter') {
                     </div>
                     <div >
                         <label>&nbsp;</label>
-                        <button type="submit" class="btn btn-primary">Filtrar</button>
+                        <button type="submit" class="btFiltrar">Filtrar</button>
                     </div>
                 </div>
             </form>
@@ -175,15 +175,14 @@ if (isset($_POST['action']) && $_POST['action'] == 'filter') {
                         </td>
                         <td>
                             <button type="button" class="btn btn-dark editBtn" data-id="<?php echo $datos['ID_Gasto']; ?>"
-                                data-descripcion="<?php echo $datos['Descripcion']; ?>"
-                                data-precio="<?php echo $datos['Precio']; ?>" data-fecha="<?php echo $datos['Fecha']; ?>"
-                                data-usu="<?php echo $datos['ID_Usuario']; ?>" data-bs-toggle="modal"
-                                data-bs-target="#exampleModaledit">
-                                <img src="Imagenes/lapiz.png" height="16px" width="16px">
+                                    data-descripcion="<?php echo $datos['Descripcion']; ?>" data-precio="<?php echo $datos['Precio']; ?>"
+                                    data-fecha="<?php echo $datos['Fecha']; ?>" data-usu="<?php echo $datos['ID_Usuario']; ?>"
+                                    onclick="openModal('exampleModaledit')">
+                                <img src="imgs/lapiz.png" height="16px" width="16px">
                             </button>
                             <!-- Botón para eliminar -->
-                            <a href="../Servidor/borrar_gasto.php?id=<?php echo $datos['ID_Gasto']; ?>">
-                                <button type="button" class="btn btn-danger"><img src="Imagenes/cruz.png" height="16px"
+                            <a href="../servidor/borrar_gasto.php?id=<?php echo $datos['ID_Gasto']; ?>">
+                                <button type="button" class="btn btn-danger"><img src="imgs/cruz.png" height="16px"
                                         width="16px"></button>
                             </a>
                         </td>
@@ -194,35 +193,31 @@ if (isset($_POST['action']) && $_POST['action'] == 'filter') {
         </div>
     
         <!-- Modal Agregar -->
-        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Registro de gastos</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <form method="POST" action="">
-                            <input type="hidden" name="action" value="insert">
-    
-    
-                            <div class="input-group flex-nowrap">
-                                <span class="input-group-text">Descripcion</span>
-                                <input type="text" class="form-control" name="cam1">
-                            </div>
-                            <br>
-                            <div class="input-group flex-nowrap">
-                                <span class="input-group-text">Precio</span>
-                                <input type="text" class="form-control" name="cam2">
-                            </div>
-                            <br>
-                            <div class="input-group flex-nowrap">
-                                <span class="input-group-text">Fecha</span>
-                                <input type="date" class="form-control" name="cam3">
-                            </div>
-                            <br>
-    
-                            <select class="form-select" name="cam4">
+        <dialog id="exampleModal">
+            <div class="modal-content">
+                <div class="cierre">
+                    <h2>Registro de gastos</h2>
+                    <span class="close" onclick="cerrarModal('exampleModal')">×</span>
+                </div>
+                <div class="cont">
+                    <form method="POST" action="">
+                        <input type="hidden" name="action" value="insert">
+                        <div class="input-group">
+                            <input type="text" name="cam1" required>
+                            <label>Descripción</label>
+                        </div>
+                        <div class="input-group">
+                            <input type="text" name="cam2" required>
+                            <label>Precio</label>
+                        </div>
+                        <div class="input-group">
+                            <input type="date" name="cam3" required>
+                            <label>Fecha</label>
+                        </div>
+                        <div class="input-group">
+                            <label>Usuario</label>
+                            <select name="cam4" required>
+                                <!-- Lista de usuarios -->
                                 <?php
                                 $cone = mysqli_query($conexion, "SELECT * FROM usuario");
                                 while($datos = mysqli_fetch_assoc($cone)) {
@@ -232,44 +227,41 @@ if (isset($_POST['action']) && $_POST['action'] == 'filter') {
                                 </option>
                                 <?php } ?>
                             </select>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                                <button type="submit" class="btn btn-primary">Guardar</button>
-                            </div>
-                        </form>
-                    </div>
+                        </div>
+                        <button class="btn-primary" type="submit">Guardar</button>
+                        <button type="button" class="btn-secondary" onclick="cerrarModal('exampleModal')">Cerrar</button>
+                    </form>
                 </div>
             </div>
-        </div>
+        </dialog>
+
     
         <!-- Modal Editar -->
-        <div class="modal fade" id="exampleModaledit" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Editar gasto</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <form id="editForm" method="POST" action="../Servidor/editar_gasto.php">
-                            <input type="hidden" id="edit-id" name="ID_Gasto">
-                            <div class="input-group flex-nowrap">
-                                <span class="input-group-text">Descripcion</span>
-                                <input type="text" class="form-control" id="edit-nombre" name="cam1">
-                            </div>
-                            <br>
-                            <div class="input-group flex-nowrap">
-                                <span class="input-group-text">Precio</span>
-                                <input type="text" class="form-control" id="edit-apaterno" name="cam2">
-                            </div>
-                            <br>
-                            <div class="input-group flex-nowrap">
-                                <span class="input-group-text">Fecha</span>
-                                <input type="text" class="form-control" id="edit-amaterno" name="cam3">
-                            </div>
-    
-                            <br>
-                            <select class="form-select" id="edit-tipo" name="cam4">
+        <dialog id="exampleModaledit">
+            <div class="modal-content">
+                <div class="cierre">
+                    <h2>Editar gasto</h2>
+                    <span class="close" onclick="cerrarModal('exampleModaledit')">×</span>
+                </div>
+                <div class="cont">
+                    <form method="POST" action="../servidor/editar_gasto.php">
+                        <input type="hidden" id="edit-id" name="ID_Gasto">
+                        <div class="input-group">
+                            <input type="text" id="edit-nombre" name="cam1" required>
+                            <label>Descripción</label>
+                        </div>
+                        <div class="input-group">
+                            <input type="text" id="edit-apaterno" name="cam2" required>
+                            <label>Precio</label>
+                        </div>
+                        <div class="input-group">
+                            <input type="date" id="edit-amaterno" name="cam3" required>
+                            <label>Fecha</label>
+                        </div>
+                        <div class="input-group">
+                            <label>Usuario</label>
+                            <select id="edit-tipo" name="cam4" required>
+                                <!-- Lista de usuarios -->
                                 <?php
                                 $cone = mysqli_query($conexion, "SELECT * FROM usuario");
                                 while($datos = mysqli_fetch_assoc($cone)) {
@@ -279,37 +271,14 @@ if (isset($_POST['action']) && $_POST['action'] == 'filter') {
                                 </option>
                                 <?php } ?>
                             </select>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                                <button type="submit" class="btn btn-primary">Guardar cambios</button>
-                            </div>
-                        </form>
-                    </div>
+                        </div>
+                        <button class="btn-primary" type="submit">Guardar cambios</button>
+                        <button type="button" class="btn-secondary" onclick="cerrarModal('exampleModaledit')">Cerrar</button>
+                    </form>
                 </div>
             </div>
-        </div>
-    </div>
+        </dialog>
     
-
-    <script>
-        document.querySelectorAll('.editBtn').forEach(button => {
-            button.addEventListener('click', function () {
-                const id = this.getAttribute('data-id');
-                const descripcion = this.getAttribute('data-descripcion');
-                const precio = this.getAttribute('data-precio');
-                const fecha = this.getAttribute('data-fecha');
-                const personal = this.getAttribute('data-usu');
-
-
-                document.getElementById('edit-id').value = id;
-                document.getElementById('edit-nombre').value = descripcion;
-                document.getElementById('edit-apaterno').value = precio;
-                document.getElementById('edit-amaterno').value = fecha;
-                document.getElementById('edit-correo').value = personal;
-
-            });
-        });
-    </script>
     <script src="js/gastos.js"></script>
 
 </body>

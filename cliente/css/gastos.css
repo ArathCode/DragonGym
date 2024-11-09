@@ -223,8 +223,18 @@ body {
 
 .agregarGasto{
   width: 100%;
-  display: flex;
-  margin: 5px;
+  margin: 5px 10px;
+}
+.agregarGasto .gB{
+  margin: 20px 0px;
+}
+.gB button{
+  padding: 10px;
+  background-color: var(--red);
+  color: white;
+  border-radius: 20px;
+  border: transparent;
+  cursor: pointer;
 }
 
 /* Filtros de gastos */
@@ -239,7 +249,14 @@ body {
   justify-content: space-around;
   gap: 40px;
 }
-
+.btFiltrar{
+  padding: 10px;
+  border: transparent;
+  background-color: #222;
+  border-radius: 10px;
+  color: white;
+  cursor: pointer;
+}
 /* Tabla de gastos */
 .table-container {
   overflow-x: auto;
