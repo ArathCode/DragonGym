@@ -184,11 +184,12 @@ if (!empty($_POST)) {
                 
                 <form method="POST" action="../servidor/renovar_membresia.php">
                     <input type="hidden" name="id_membresia" id="id_membresia_renovar">
-                    <div>
+                    <div class="fechaM">
                         <label>Fecha de Inicio</label>
-                        <input type="date" id="fecha_inicio" name="fecha_inicio" required>
+                        <input placeholder="Fecha de inicio" class="input" type="date"
+                        id="fecha_inicio" name="fecha_inicio" required/>
+
                     </div>
-                    <br>
                     <div>
                         <label>Duración</label>
                         <select id="tipoMembresia" name="tipoMembresia" onchange="calcularTotal()" required>

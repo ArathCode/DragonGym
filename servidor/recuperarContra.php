@@ -51,9 +51,18 @@ if (!empty($_POST)) {
                         <label for="correo">Correo electronico</label>
                     </div>
                 </div>
-                <button type="submit">Enviar</button>
-                <a href="../index.php" type="button" class="btn btn-danger" > Regresar</a>
-            </form>
+                <div class="boton">
+                    <button type="submit" class="pushable">
+                    <span class="shadow"></span>
+                    <span class="edge"></span>
+                    <span class="front"> Enviar correo </span>
+                    </button>
+                </div>
+                <div class="regresar">
+                    <a href="../index.php" type="button" class="btn btn-danger" > Regresar</a>
+                </div>
+
+            </form>  
         </div>
     </div>
 </body>

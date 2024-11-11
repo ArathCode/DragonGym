@@ -47,6 +47,7 @@ if (!empty($_SESSION['activa'])) {
             </div>
         </div>
         <div class="right-section">
+            
             <h2>Hola, Bienvenido</h2>
             <p>Sistema Dragon' Gym</p>
             <form method="POST">
@@ -68,5 +69,7 @@ if (!empty($_SESSION['activa'])) {
             </form>
         </div>
     </div>
+
+    
 </body>
 </html>

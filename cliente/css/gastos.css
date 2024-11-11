@@ -223,7 +223,7 @@ body {
 
 .agregarGasto{
   width: 100%;
-  margin: 5px 10px;
+  margin: 5px 20px;
 }
 .agregarGasto .gB{
   margin: 20px 0px;
@@ -285,6 +285,116 @@ body {
 .table tr td:last-child{
   text-align: end;
 }
+
+/*  Dialogs */
+dialog {
+  position: fixed;
+  z-index: 9999;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0);
+  border: none; 
+  align-items: center;
+  justify-content: center;
+  margin: 0; 
+  padding: 0;
+  box-shadow: none;
+}
+dialog form{
+  width: 100%;
+}
+dialog[open] {
+  display: flex; 
+}
+
+dialog .modal-content {
+  background-color: #fff;
+  padding: 20px;
+  width: 80%;
+  max-width: 620px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+}
+.cont {
+  width: 100%;
+}
+.modal-content .cierre{
+  width: 100%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+.cierre span{
+  font-size: 40px;
+  color: #999;
+}
+.cierre span:hover{
+  color: var(--red);
+}
+.cierre h2{
+  display: inline-block;
+}
+dialog h2 {
+  color: var(--red);
+}
+
+dialog .input-group {
+  position: relative;
+  margin: 20px 0;  
+}
+
+.contenidoIn {
+  width: 100%;
+  margin: 0 auto; 
+}
+
+.input-group {
+  position: relative;
+  width: 100%;
+  margin-bottom: 10px; 
+}
+
+.input-group input,
+.input-group select {
+  width: 90%; 
+  height: 40px;
+  font-size: 16px;
+  color: var(--red);
+  padding: 0 10px;
+  background: transparent;
+  border: 1.2px solid black;
+  border-radius: 10px;
+  outline: none;
+  box-sizing: border-box; 
+}
+
+.input-group label {
+  position: absolute;
+  top: 50%;
+  left: 10px;
+  transform: translateY(-50%);
+  font-size: 16px;
+  color: black;
+  padding: 0 5px;
+  pointer-events: none;
+  transition: 0.2s;
+}
+
+.input-group input:focus ~ label,
+.input-group input:valid ~ label {
+  top: 0;
+  font-size: 12px;
+  background-color: white;
+  padding: 0 3px;
+}
+
+
 /* ====================== Todo lo responsivo ========================== */
 @media (max-width: 991px) {
   .navigation {

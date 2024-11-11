@@ -202,32 +202,35 @@ if (isset($_POST['action']) && $_POST['action'] == 'filter') {
                 <div class="cont">
                     <form method="POST" action="">
                         <input type="hidden" name="action" value="insert">
-                        <div class="input-group">
-                            <input type="text" name="cam1" required>
-                            <label>Descripción</label>
+                        <div class="contenidoIn">
+                            <div class="input-group">
+                                <input type="text" name="cam1" required>
+                                <label>Descripción</label>
+                            </div>
+                            <div class="input-group">
+                                <input type="text" name="cam2" required>
+                                <label>Precio</label>
+                            </div>
+                            <div class="">
+                                <input type="date" name="cam3" required>
+                                <label>Fecha</label>
+                            </div>
+                            <div class="">
+                                <label>Usuario</label>
+                                <select name="cam4" required>
+                                    <!-- Lista de usuarios -->
+                                    <?php
+                                    $cone = mysqli_query($conexion, "SELECT * FROM usuario");
+                                    while($datos = mysqli_fetch_assoc($cone)) {
+                                    ?>
+                                    <option value="<?php echo $datos['ID_Usuario']; ?>">
+                                        <?php echo $datos['NombreUsuario']; ?>
+                                    </option>
+                                    <?php } ?>
+                                </select>
+                            </div>
                         </div>
-                        <div class="input-group">
-                            <input type="text" name="cam2" required>
-                            <label>Precio</label>
-                        </div>
-                        <div class="input-group">
-                            <input type="date" name="cam3" required>
-                            <label>Fecha</label>
-                        </div>
-                        <div class="input-group">
-                            <label>Usuario</label>
-                            <select name="cam4" required>
-                                <!-- Lista de usuarios -->
-                                <?php
-                                $cone = mysqli_query($conexion, "SELECT * FROM usuario");
-                                while($datos = mysqli_fetch_assoc($cone)) {
-                                ?>
-                                <option value="<?php echo $datos['ID_Usuario']; ?>">
-                                    <?php echo $datos['NombreUsuario']; ?>
-                                </option>
-                                <?php } ?>
-                            </select>
-                        </div>
+                        
                         <button class="btn-primary" type="submit">Guardar</button>
                         <button type="button" class="btn-secondary" onclick="cerrarModal('exampleModal')">Cerrar</button>
                     </form>
