@@ -26,7 +26,6 @@ body {
   width: 100%;
 
 }
-
 /* =============== Menu ================ */
 .navigation {
   position: fixed;
@@ -131,6 +130,8 @@ body {
   box-shadow: 35px -35px 0 10px var(--white);
   pointer-events: none;
 }
+
+
 
 /* ===================== contenido principal ===================== */
 .main {
@@ -558,6 +559,7 @@ body {
   border-radius: 6px;
 }
 
+/* Tablas*/
 .details table {
   width: 100%;
   border-collapse: collapse;

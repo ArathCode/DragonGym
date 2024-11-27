@@ -99,13 +99,39 @@ if (isset($_POST['action']) && $_POST['action'] == 'filter') {
             <div class="toggle">
                 <ion-icon name="menu-outline"></ion-icon>
             </div>
-            <div class="search">
-                <form method="GET" action="">
-                    <label>
-                        <input type="text" class="input-control" placeholder="Buscar gasto" name="search" value="<?php echo $search; ?>">
-                        <ion-icon name="search-outline"></ion-icon>
-                    </label>
-                </form>
+            <div class="subMenu">
+                <div class="gastos">
+                    <div class="iconoGa">
+                        <ion-icon name="wallet-outline"></ion-icon>
+                    </div>
+                    <div class="enlace">
+                        <a href="Gastos.php">Gastos</a>
+                    </div>
+                </div>
+                <div class="inventario">
+                    <div class="iconoIn">
+                        <ion-icon name="archive-outline"></ion-icon>
+                    </div>
+                    <div class="enlace">
+                        <a href="inventario.php">Inventario</a>
+                    </div>
+                </div>
+                <div class="adminUsuarios">
+                    <div class="iconoAd">
+                        <ion-icon name="people-outline"></ion-icon>
+                    </div>
+                    <div class="enlace">
+                        <a href="ControlPersonal.php">Usuarios</a>
+                    </div>
+                </div>
+                <div class="reportes">
+                    <div class="iconoRe">
+                    <ion-icon name="document-attach-outline"></ion-icon>
+                    </div>
+                    <div class="enlace">
+                        <a href="#">Reportes</a>
+                    </div>
+                </div>
             </div>
             <div class="contenedor">
                 <div class="usuario">
@@ -141,7 +167,7 @@ if (isset($_POST['action']) && $_POST['action'] == 'filter') {
                 </div>
             </form>
         </div>
-        <br>
+        
         <div class="table-container" >
             <?php echo isset($alert) ? $alert : ""; ?>
             <table class="table">
@@ -208,17 +234,17 @@ if (isset($_POST['action']) && $_POST['action'] == 'filter') {
                                 <label>Descripción</label>
                             </div>
                             <div class="input-group">
-                                <input type="text" name="cam2" required>
+                                <input type="number" name="cam2" required>
                                 <label>Precio</label>
                             </div>
-                            <div class="">
+                            <div class="fechaG">
+                                <p>Fecha</p>
                                 <input type="date" name="cam3" required>
-                                <label>Fecha</label>
                             </div>
-                            <div class="">
-                                <label>Usuario</label>
+                            <div class="usuarioG">
                                 <select name="cam4" required>
                                     <!-- Lista de usuarios -->
+                                     <option value="">Usuario</option>
                                     <?php
                                     $cone = mysqli_query($conexion, "SELECT * FROM usuario");
                                     while($datos = mysqli_fetch_assoc($cone)) {
@@ -231,8 +257,8 @@ if (isset($_POST['action']) && $_POST['action'] == 'filter') {
                             </div>
                         </div>
                         
-                        <button class="btn-primary" type="submit">Guardar</button>
-                        <button type="button" class="btn-secondary" onclick="cerrarModal('exampleModal')">Cerrar</button>
+                        <button class="btnGuardar" type="submit">Guardar</button>
+                        <button type="button" class="btnSalir" onclick="cerrarModal('exampleModal')">Cerrar</button>
                     </form>
                 </div>
             </div>
@@ -262,9 +288,9 @@ if (isset($_POST['action']) && $_POST['action'] == 'filter') {
                             <label>Fecha</label>
                         </div>
                         <div class="input-group">
-                            <label>Usuario</label>
                             <select id="edit-tipo" name="cam4" required>
                                 <!-- Lista de usuarios -->
+                                 <option value="">Usuario</option>
                                 <?php
                                 $cone = mysqli_query($conexion, "SELECT * FROM usuario");
                                 while($datos = mysqli_fetch_assoc($cone)) {
@@ -275,8 +301,8 @@ if (isset($_POST['action']) && $_POST['action'] == 'filter') {
                                 <?php } ?>
                             </select>
                         </div>
-                        <button class="btn-primary" type="submit">Guardar cambios</button>
-                        <button type="button" class="btn-secondary" onclick="cerrarModal('exampleModaledit')">Cerrar</button>
+                        <button class="btnGuardar" type="submit">Guardar cambios</button>
+                        <button type="button" class="btnSalir" onclick="cerrarModal('exampleModaledit')">Cerrar</button>
                     </form>
                 </div>
             </div>

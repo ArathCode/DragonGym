@@ -44,7 +44,7 @@ session_start();
                 </li>
 
                 <li>
-                    <a href="Gastos.php">
+                    <a href="#">
                         <span class="icon">
                             <ion-icon name="pricetag-outline"></ion-icon>
                         </span>
@@ -64,13 +64,12 @@ session_start();
                 </li>
 
                 <li>
-                    <a href="#">
+                    <a href="Gastos.php" class="admin">
                         <span class="icon">
                             <ion-icon name="lock-closed-outline"></ion-icon>
                         </span>
                         <span class="title">Administración</span>
                     </a>
-                </li>
 
                 <li>
                     <a href="../index.php">
