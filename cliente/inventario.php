@@ -70,8 +70,39 @@ if (isset($_GET['delete_id']) && is_numeric($_GET['delete_id'])) {
             <div class="toggle">
                 <ion-icon name="menu-outline"></ion-icon>
             </div>
-            <div class="search">
-                
+            <div class="subMenu">
+                <div class="gastos">
+                    <div class="iconoGa">
+                        <ion-icon name="wallet-outline"></ion-icon>
+                    </div>
+                    <div class="enlace">
+                        <a href="Gastos.php">Gastos</a>
+                    </div>
+                </div>
+                <div class="inventario">
+                    <div class="iconoIn">
+                        <ion-icon name="archive-outline"></ion-icon>
+                    </div>
+                    <div class="enlace">
+                        <a href="inventario.php">Inventario</a>
+                    </div>
+                </div>
+                <div class="adminUsuarios">
+                    <div class="iconoAd">
+                        <ion-icon name="people-outline"></ion-icon>
+                    </div>
+                    <div class="enlace">
+                        <a href="ControlPersonal.php">Usuarios</a>
+                    </div>
+                </div>
+                <div class="reportes">
+                    <div class="iconoRe">
+                    <ion-icon name="document-attach-outline"></ion-icon>
+                    </div>
+                    <div class="enlace">
+                        <a href="#">Reportes</a>
+                    </div>
+                </div>
             </div>
             <div class="contenedor">
                 <div class="usuario">

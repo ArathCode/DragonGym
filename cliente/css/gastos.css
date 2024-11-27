@@ -175,10 +175,42 @@ body {
 .adminUsuarios, .reportes{
   padding: 10px 15px;
   border-radius: 30px;
-  background-color: #999;
+  background-color: var(--black1);
   display: flex;
   gap: 5px;
+  transition: .2s ease all;
+}
+.gastos{
+  background-color: var(--red);
+  color: white;
+}
+.inventario{
+  color: rgb(241, 241, 18);
+}
+.adminUsuarios{
+  color: rgb(49, 133, 229);
+}
+.reportes{
+  color: rgb(248, 144, 32);
+}
+.subMenu .enlace a{
+  text-decoration: none;
+  color: white;
+}
 
+.inventario:hover .enlace a,
+.adminUsuarios:hover .enlace a,
+.reportes:hover .enlace a{
+  color: black;
+}
+.inventario:hover, 
+.adminUsuarios:hover, .reportes:hover{
+  background-color:  rgb(187, 187, 187);
+  color: var(--red);
+}
+.gastos:hover{
+  background-color: var(--black1);
+  color: rgb(12, 189, 80);
 }
 .contenedor{
   display: flex;

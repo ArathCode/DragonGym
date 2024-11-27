@@ -169,6 +169,55 @@ body {
     font-size: 2.5rem;
     cursor: pointer;
   }
+
+  .subMenu{
+    display: flex;
+    width: 550px;
+    justify-content: space-around;
+    gap: 15px;
+  }
+  .gastos, .inventario, 
+  .adminUsuarios, .reportes{
+    padding: 10px 15px;
+    border-radius: 30px;
+    background-color: var(--black1);
+    display: flex;
+    gap: 5px;
+    transition: .2s ease all;
+  }
+  .gastos{
+    color: rgb(12, 189, 80);
+  }
+  .inventario{
+    background-color: var(--red);
+    color: white;
+  }
+  .adminUsuarios{
+    color: rgb(49, 133, 229);
+  }
+  .reportes{
+    color: rgb(248, 144, 32);
+  }
+  .subMenu .enlace a{
+    text-decoration: none;
+    color: white;
+  }
+  
+  .gastos:hover .enlace a,
+  .adminUsuarios:hover .enlace a,
+  .reportes:hover .enlace a{
+    color: black;
+  }
+
+  .gastos:hover,
+  .adminUsuarios:hover, .reportes:hover{
+    background-color: rgb(187, 187, 187);
+    color: var(--red);
+  }
+  .inventario:hover{
+    background-color: var(--black1);
+    color: rgb(241, 241, 18);
+  }
   .contenedor{
     display: flex;
     align-items: center;
