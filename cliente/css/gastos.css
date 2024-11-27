@@ -245,7 +245,8 @@ body {
   margin: 5px 20px;
 }
 .agregarGasto .gB{
-  margin: 20px 0px;
+  margin: auto;
+  width: 150px;
 }
 .gB button{
   padding: 10px;
