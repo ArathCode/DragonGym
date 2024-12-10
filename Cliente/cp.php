@@ -1,0 +1,496 @@
+<?php
+include_once("../Servidor/conexion.php");
+$categoria = isset($_GET['categoria']) ? $_GET['categoria'] : '';
+$search = isset($_GET['search']) ? $_GET['search'] : '';
+
+
+$query = "SELECT ID_MembresiaD, Nombre, ApellidoP, ApellidoM, Sexo, CP, Municipio, Estado, Colonia FROM miembrosd";
+$preciosQuery = "SELECT Tipo, Precio FROM preciossubs";
+$preciosResult = mysqli_query($conexion, $preciosQuery);
+
+$precios = [];
+while ($row = mysqli_fetch_assoc($preciosResult)) {
+    $precios[$row['Tipo']] = $row['Precio'];
+}
+
+if ($categoria != '') {
+    $query .= " WHERE Categoria = '$categoria'";
+}
+
+
+if ($search != '') {
+    if (strpos($query, 'WHERE') !== false) {
+        $query .= " AND Nombre LIKE '%$search%'";
+    } else {
+        $query .= " WHERE Nombre LIKE '%$search%'";
+    }
+}
+
+
+$result = mysqli_query($conexion, $query);
+
+
+if (!empty($_POST)) {
+    if (empty($_POST['nombre']) || empty($_POST['apellido_p']) || empty($_POST['apellido_m']) || empty($_POST['sexo'])  ) {
+        $alert = '<div class="alert alert-danger d-flex align-items-center" role="alert">
+                  <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Warning:"><use xlink:href="#exclamation-triangle-fill"/></svg>
+                  <div>Todos los campos son obligatorios</div>
+                  </div>';
+    } else {
+        $nombre = $_POST['nombre'];
+        $apellidoP = $_POST['apellido_p'];
+        $apellidoM = $_POST['apellido_m'];
+        $sexo = $_POST['sexo'];
+        $muni = $_POST['municipio'];
+        $cp = $_POST['codigo_postal'];
+        $estado = $_POST['estado'];
+        $colonia = $_POST['list_colonias'];
+ 
+        $consulta  = "INSERT INTO miembrosd (ID_MembresiaD,Nombre, ApellidoP, ApellidoM, Sexo, CP, Colonia, Municipio, Estado)
+                  VALUES (null,'$nombre', '$apellidoP', '$apellidoM', '$sexo', '$cp', '$colonia', '$muni', '$estado')";
+        
+        $result = mysqli_query($conexion, $consulta);
+        if ($consulta) {
+            $alert = '<div class="alert alert-success d-flex align-items-center" role="alert">
+                      <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Warning:"><use xlink:href="#exclamation-triangle-fill"/></svg>
+                      <div>Miembro guardado correctamente</div>
+                      </div>';
+        } else {
+            $alert = '<div class="alert alert-danger d-flex align-items-center" role="alert">
+                      <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Warning:"><use xlink:href="#exclamation-triangle-fill"/></svg>
+                      <div>Error al guardar miembro</div>
+                      </div>';
+        }
+    }
+}
+?>
+
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>Miembros</title>
+    <script type="text/javascript">
+        
+        function informacion_cp(){
+
+          $.ajax({
+            url : 'https://api.copomex.com/query/info_cp/' + $("#codigo_postal").val(), //aqui va el endpoint de la api de copomex, con el método de info_cp, se deberá concatenar el CP ya que se recibe como parametro en la url, no como variable GET
+            data : { 
+              token : '36b27f9d-540f-49c4-9ddf-4f40e6219d34', //aqui va tu token. Crea una cuenta gratuita para obtener tu token en https://api.copomex.com/panel
+              type : 'simplified'
+            },
+            type : 'GET', //el método http que se usará, COPOMEX solo ocupa método get
+            dataType : 'json', // el tipo de información que se espera de respuesta
+            success : function(copomex) { // código a ejecutar si la petición es satisfactoria, dentro irá el código personalizado
+
+              if(!copomex.error){ //si NO hubo un error
+
+                $("#cp_response").val(copomex.response.cp); //ingresamos la respuesta del cp, en el input destino
+                $("#tipo_asentamiento").val(copomex.response.tipo_asentamiento); //ingresamos la respuesta del tipo de asentamiento, en el input destino
+                $("#municipio").val(copomex.response.municipio); //ingresamos la respuesta del municipio, en el input destino
+                $("#estado").val(copomex.response.estado); //ingresamos la respuesta del estado, en el input destino
+                $("#ciudad").val(copomex.response.ciudad); //ingresamos la respuesta de la ciudad, en el input destino
+                $("#pais").val(copomex.response.pais); //ingresamos la respuesta del pais, en el input destino
+
+                $("#list_colonias").html(''); //reseteamos el input select para que no se concatene a los nuevos resultados
+                for(var i = 0; i<copomex.response.asentamiento.length; i++){ //iteramos el resultado en un for
+                  $("#list_colonias").append('<option>'+copomex.response.asentamiento[i]+'</option>'); //agregamos el item al listado de colonias
+                }
+
+              }else{ //si hubo error
+                console.log('error: ' + copomex.error_message);
+              }
+
+            },
+            error : function(jqXHR, status, error) { //si ocurrió un error en el request al endpoint de COPOMEX
+
+                if(jqXHR.status==400){ //el código http 400 significa que algo se mandó mal (Bad Request)
+                  copomex = jqXHR.responseJSON;
+                  alert(copomex.error_message); //mostramos en un alerta, el error recibido
+                }
+
+            },
+            complete : function(jqXHR, status) { // código a ejecutar sin importar si la petición falló o no
+                console.log('Petición a COPOMEX terminada');
+            }
+          });
+
+        }
+
+    </script>
+    <link rel="shortcut icon" href="Imagenes/logof.jpg" />
+    <style>
+        .vencido {
+            background-color: #f8d7da; 
+        }
+        .vigente {
+            background-color: #d4edda; 
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ENCABEZADO -->
+    <?php include_once("include/encabezado.php"); ?>
+    <!-- ENCABEZADO -->
+    <br>
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-center">
+            <h2>Miembros</h2>
+            <!-- Boton pa agregar nuevo miembro -->
+            <button type="button" class="btn btn-primary" style="background-color:black;" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                <img src="Imagenes/add.png" height="16px" width="16px"> Nuevo Miembro
+            </button>
+        </div>
+    </div>
+    
+    <br>
+
+  
+    <?php if (isset($alert)) echo $alert; ?>
+
+    <div class="container">
+        <!-- Formulario de búsqueda -->
+        <form method="GET" action="">
+            <div class="input-group mb-3">
+                <input type="text" class="form-control" placeholder="Buscar por nombre" name="search" value="<?php echo $search; ?>">
+                <button class="btn btn-outline-secondary" type="submit">Buscar</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="container" style="text-align:center">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th scope="col">ID Membresía</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Apellido Paterno</th>
+                    <th scope="col">Apellido Materno</th>
+                    <th scope="col">Sexo</th>
+                    <th scope="col">CP</th>
+                    <th scope="col">Municipio</th>
+                    <th scope="col">Colonia</th>
+                    <th scope="col">Estado</th>
+                    <th scope="col">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+                $con = mysqli_query($conexion, $query);
+               
+
+                while ($datos = mysqli_fetch_assoc($con)) {
+                  
+                ?>
+                    <tr >
+                    <td><?php echo $datos['ID_MembresiaD']; ?></td>
+                        <td><?php echo $datos['Nombre']; ?></td>
+                        <td><?php echo $datos['ApellidoP']; ?></td>
+                        <td><?php echo $datos['ApellidoM']; ?></td>
+                        <td><?php echo $datos['Sexo']; ?></td>
+                        <td><?php echo $datos['CP']; ?></td>
+                        <td><?php echo $datos['Municipio']; ?></td>
+                        <td><?php echo $datos['Colonia']; ?></td>
+                        <td><?php echo $datos['Estado']; ?></td>
+                        
+                        <td>
+                            <!-- Botón para editar -->
+                            <button type="button" class="btn btn-dark editBtn" data-id="<?php echo $datos['ID_MembresiaD']; ?>" 
+                                    data-nombre="<?php echo $datos['Nombre']; ?>" 
+                                    data-apellido-p="<?php echo $datos['ApellidoP']; ?>" 
+                                    data-apellido-m="<?php echo $datos['ApellidoM']; ?>" 
+                                    data-sexo="<?php echo $datos['Sexo']; ?>" 
+                                    
+                                    data-telefono="<?php echo $datos['CP']; ?>" 
+                                    data-bs-toggle="modal" data-bs-target="#exampleModaledit">
+                                <img src="Imagenes/lapiz.png" height="16px" width="16px">
+                            </button>
+                      
+                            <a href="../Servidor/borrar_miembro.php?id=<?php echo $datos['ID_MembresiaD']; ?>">
+                                <button type="button" class="btn btn-danger">
+                                    <img src="Imagenes/cruz.png" height="16px" width="16px">
+                                </button>
+                            </a>
+                            <button type="button" class="btn btn-warning renovarBtn" data-id="<?php echo $datos['ID_MembresiaD']; ?>"
+                                    data-fecha-inicio="<?php echo $datos['CP']; ?>" 
+                                    data-bs-toggle="modal" data-bs-target="#renovarModal">
+                                <img src="Imagenes/renovar.png" height="16px" width="16px">
+                            </button>
+                        </td>
+                    </tr>
+                <?php } ?>
+            </tbody>
+        </table>
+    </div>
+    
+   
+    <!-- Modal Renovar Membresía -->
+<div class="modal fade" id="renovarModal" tabindex="-1" aria-labelledby="renovarModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="renovarModalLabel">Renovar Membresía</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form method="POST" action="../Servidor/renovar_membresia.php">
+                <div class="modal-body">
+                    <input type="hidden" name="id_membresia" id="id_membresia_renovar">
+                    
+                    <div class="input-group flex-nowrap">
+                        <span class="input-group-text">Fecha de Inicio</span>
+                        <input type="date" class="form-control" id="fecha_inicio" name="fecha_inicio" required>
+                    </div>
+                    <br>
+                    <div class="input-group flex-nowrap">
+                        <span class="input-group-text">Duración</span>
+                        <select class="form-select" id="tipoMembresia" name="tipoMembresia" onchange="calcularTotal()" required>
+                            <option value="Semana">Semana</option>
+                            <option value="Mes">Mes</option>
+                        </select>
+                        <input type="number" class="form-control" id="cantidad" name="cantidad" placeholder="Número" oninput="calcularTotal()" required>
+                    </div>
+                    <br>
+                    <div class="input-group flex-nowrap">
+                        <span class="input-group-text">Fecha de Fin</span>
+                        <input type="date" class="form-control" id="fecha_fin" name="fecha_fin" readonly required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="total">Total:</label>
+                        <input type="text" id="total" name="total" class="form-control" readonly>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-warning">Renovar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+    <!-- Modal Agregar Miembro -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Registro de Miembro</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form method="POST" id="memberForm">
+                        <div class="input-group flex-nowrap">
+                            <span class="input-group-text">Nombre</span>
+                            <input type="text" class="form-control" name="nombre" required>
+                        </div>
+                        <br>
+                        <div class="input-group flex-nowrap">
+                            <span class="input-group-text">Apellido Paterno</span>
+                            <input type="text" class="form-control" name="apellido_p" required>
+                        </div>
+                        <br>
+                        <div class="input-group flex-nowrap">
+                            <span class="input-group-text">Apellido Materno</span>
+                            <input type="text" class="form-control" name="apellido_m" required>
+                        </div>
+                        <br>
+                        <div class="input-group flex-nowrap">
+                            <span class="input-group-text">Sexo</span>
+                            <input type="text" class="form-control" name="sexo" required>
+                        </div>
+                        <br>
+
+                        <div class="input-group flex-nowrap">
+                            <span class="input-group-text">Teléfono</span>
+                            <input type="text" class="form-control" name="telefono" required>
+                        </div>
+                        <br>
+                        <div class="input-group input-group-sm mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text" id="inputGroup-sizing-sm">Código Postal:</span>
+        </div>
+        <input type="text" class="form-control" name="codigo_postal" id="codigo_postal">
+      </div>
+      <a href="javascript:void(0)" onclick="informacion_cp()" style="background-color:black;" class="btn btn-primary">Obtener información Código Postal</a>
+      <br/>
+
+
+      <label for="cp_response">Código Postal Respuesta:</label>
+      <input type="text" name="cp_response" id="cp_response" class="form-control" disabled readonly>
+      <br>
+
+      <label for="list_colonias">Colonias:</label>
+      <select name="list_colonias" id="list_colonias" class="form-control">
+        <option>Seleccione</option>
+      </select>
+      <br>
+
+      <label for="tipo_asentamiento">Tipo Asentamiento:</label>
+      <input type="text" name="tipo_asentamiento" id="tipo_asentamiento" class="form-control" disabled readonly>
+      <br>
+
+      <label for="municipio">Municipio:</label>
+      <input type="text" name="municipio" id="municipio" class="form-control"  readonly>
+      <br>
+
+      <label for="estado">Estado:</label>
+      <input type="text" name="estado" id="estado" class="form-control"  readonly>
+      <br>
+
+      
+
+      <label for="pais">País:</label>
+      <input type="text" name="pais" id="pais" class="form-control" disabled readonly>
+      <br>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                            <button type="submit" class="btn btn-primary">Guardar</button>
+                        </div>
+                    </form>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Modal Editar Miembro -->
+ 
+    <div class="modal fade" id="exampleModaledit" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Editar Miembro</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="editForm" method="POST" action="../Servidor/editar_miembro.php">
+                        <input type="hidden" id="edit-id" name="ID_Membresia">
+                        <div class="input-group flex-nowrap">
+                            <span class="input-group-text">Nombre</span>
+                            <input type="text" class="form-control" id="edit-nombre" name="nombre" required>
+                        </div>
+                        <br>
+                        <div class="input-group flex-nowrap">
+                            <span class="input-group-text">Apellido Paterno</span>
+                            <input type="text" class="form-control" id="edit-apellido-p" name="apellido_p" required>
+                        </div>
+                        <br>
+                        <div class="input-group flex-nowrap">
+                            <span class="input-group-text">Apellido Materno</span>
+                            <input type="text" class="form-control" id="edit-apellido-m" name="apellido_m" required>
+                        </div>
+                        <br>
+                        <div class="input-group flex-nowrap">
+                            <span class="input-group-text">Sexo</span>
+                            <input type="text" class="form-control" id="edit-sexo" name="sexo" required>
+                        </div>
+                        <br>
+                      
+                        
+                        <div class="input-group flex-nowrap">
+                            <span class="input-group-text">Teléfono</span>
+                            <input type="text" class="form-control" id="edit-telefono" name="telefono" required>
+                        </div>
+                        
+                        <br>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                            <button type="submit" class="btn btn-primary">Guardar cambios</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <?php include_once("include/footer.php"); ?>
+    </footer>
+    <br><br>
+    <script>
+    document.querySelectorAll('.editBtn').forEach(button => {
+        button.addEventListener('click', function() {
+            const id = this.getAttribute('data-id');
+            const nombre = this.getAttribute('data-nombre');
+            const apellidoP = this.getAttribute('data-apellido-p');
+            const apellidoM = this.getAttribute('data-apellido-m');
+            const sexo = this.getAttribute('data-sexo');
+            const telefono = this.getAttribute('data-telefono');
+
+            document.getElementById('edit-id').value = id;
+            document.getElementById('edit-nombre').value = nombre;
+            document.getElementById('edit-apellido-p').value = apellidoP;
+            document.getElementById('edit-apellido-m').value = apellidoM;
+            document.getElementById('edit-sexo').value = sexo;
+            document.getElementById('edit-telefono').value = telefono;
+        });
+    });
+    document.querySelectorAll('.renovarBtn').forEach(button => {
+    button.addEventListener('click', function() {
+        const id = this.getAttribute('data-id');
+        const fechaInicio = this.getAttribute('data-fecha-inicio');
+
+        document.getElementById('id_membresia_renovar').value = id;
+        document.getElementById('fecha_inicio').value = fechaInicio;
+    });
+});
+
+
+
+    document.getElementById('cantidad').addEventListener('input', calcularFechaFin);
+    document.getElementById('tipoMembresia').addEventListener('change', calcularFechaFin);
+    document.getElementById('fecha_inicio').addEventListener('change', calcularFechaFin);
+
+    function calcularFechaFin() {
+        const fechaInicio = document.getElementById('fecha_inicio').value;
+        const duracionTipo = document.getElementById('tipoMembresia').value;
+        const duracionNumero = parseInt(document.getElementById('cantidad').value) || 0;
+
+        if (fechaInicio && duracionNumero > 0) {
+            const fechaInicioDate = new Date(fechaInicio);
+            let fechaFinDate;
+
+            if (duracionTipo === 'Mes') {
+                fechaFinDate = new Date(fechaInicioDate.setMonth(fechaInicioDate.getMonth() + duracionNumero));
+            } else if (duracionTipo === 'Semana') {
+                fechaFinDate = new Date(fechaInicioDate.setDate(fechaInicioDate.getDate() + (duracionNumero * 7)));
+            }
+
+            const opciones = { year: 'numeric', month: '2-digit', day: '2-digit' };
+            document.getElementById('fecha_fin').value = fechaFinDate.toLocaleDateString('fr-CA', opciones); // Formato YYYY-MM-DD
+        }
+    }
+    </script>
+    <script>
+
+var precios = <?php echo json_encode($precios); ?>;
+
+
+function calcularTotal() {
+    var tipo = document.getElementById('tipoMembresia').value;
+    var cantidad = parseInt(document.getElementById('cantidad').value) || 0;
+
+    if (tipo && cantidad > 0) {
+        var precio = precios[tipo];
+        var total = cantidad * precio;
+        document.getElementById('total').value = total.toFixed(2);
+    } else {
+        document.getElementById('total').value = '';
+    }
+}
+</script>
+
+    <footer>
+        <?php include_once("include/footer.php"); ?>
+    </footer>
+
+</body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</html>

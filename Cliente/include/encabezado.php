@@ -55,7 +55,7 @@ footer {
                 <div class="btn-group" style="padding-top:38px; font-weight: bold;">
                     <?php if($_SESSION['rol']==1){?>
                     <a href="Inicio.php" class="btn btn-primary " style="background-color: black; border-color:black ;  font-weight: bold;">Inicio</a>
-                    <a href="Uusaurios.php" class="btn btn-primary " style="background-color: black ;   border-color:black ;font-weight: bold;">Usuarios</a>
+                    <a href="cp.php" class="btn btn-primary " style="background-color: black ;   border-color:black ;font-weight: bold;">Direccion</a>
                     <a href="Miembros.php" class="btn btn-primary" style="background-color: black ;border-color:black ;font-weight: bold;">Miembros</a>
                     <a href="Gastos.php" class="btn btn-primary" style="background-color: black;  border-color:black;font-weight: bold; ">Productos</a>
                     <a href="ControlPersonal.php" class="btn btn-primary" style="background-color: black;  border-color:black;font-weight: bold; ">Promociones</a>

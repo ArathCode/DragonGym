@@ -69,8 +69,60 @@ if (!empty($_POST)) {
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <title>Miembros</title>
+    <script type="text/javascript">
+        
+        function informacion_cp(){
+
+          $.ajax({
+            url : 'https://api.copomex.com/query/info_cp/' + $("#codigo_postal").val(), 
+            data : { 
+              token : '36b27f9d-540f-49c4-9ddf-4f40e6219d34', 
+              type : 'simplified'
+            },
+            type : 'GET',
+            dataType : 'json', 
+            success : function(copomex) {
+
+              if(!copomex.error){ 
+
+                $("#cp_response").val(copomex.response.cp); 
+                $("#tipo_asentamiento").val(copomex.response.tipo_asentamiento);
+                $("#municipio").val(copomex.response.municipio); 
+                $("#estado").val(copomex.response.estado);
+                $("#ciudad").val(copomex.response.ciudad); 
+                $("#pais").val(copomex.response.pais); 
+
+                $("#list_colonias").html('');
+                for(var i = 0; i<copomex.response.asentamiento.length; i++){ 
+                  $("#list_colonias").append('<option>'+copomex.response.asentamiento[i]+'</option>'); 
+                }
+
+              }else{ 
+                console.log('error: ' + copomex.error_message);
+              }
+
+            },
+            error : function(jqXHR, status, error) { 
+
+                if(jqXHR.status==400){ 
+                  copomex = jqXHR.responseJSON;
+                  alert(copomex.error_message); 
+                }
+
+            },
+            complete : function(jqXHR, status) { 
+                console.log('Petición a COPOMEX terminada');
+            }
+          });
+
+        }
+
+    </script>
     <link rel="shortcut icon" href="Imagenes/logof.jpg" />
     <style>
         .vencido {
@@ -260,12 +312,51 @@ if (!empty($_POST)) {
                             <input type="text" class="form-control" name="telefono" required>
                         </div>
                         <br>
-                       
+                        <div class="input-group input-group-sm mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text" id="inputGroup-sizing-sm">Código Postal:</span>
+        </div>
+        <input type="text" class="form-control" name="codigo_postal" id="codigo_postal">
+      </div>
+      <a href="javascript:void(0)" onclick="informacion_cp()" style="background-color:black;" class="btn btn-primary">Obtener información Código Postal</a>
+      <br/>
+
+
+      <label for="cp_response">Código Postal Respuesta:</label>
+      <input type="text" name="cp_response" id="cp_response" class="form-control" disabled readonly>
+      <br>
+
+      <label for="list_colonias">Colonias:</label>
+      <select name="list_colonias" id="list_colonias" class="form-control">
+        <option>Seleccione</option>
+      </select>
+      <br>
+
+      <label for="tipo_asentamiento">Tipo Asentamiento:</label>
+      <input type="text" name="tipo_asentamiento" id="tipo_asentamiento" class="form-control" disabled readonly>
+      <br>
+
+      <label for="municipio">Municipio:</label>
+      <input type="text" name="municipio" id="municipio" class="form-control" disabled readonly>
+      <br>
+
+      <label for="estado">Estado:</label>
+      <input type="text" name="estado" id="estado" class="form-control" disabled readonly>
+      <br>
+
+      <label for="ciudad">Ciudad:</label>
+      <input type="text" name="ciudad" id="ciudad" class="form-control" disabled readonly>
+      <br>
+
+      <label for="pais">País:</label>
+      <input type="text" name="pais" id="pais" class="form-control" disabled readonly>
+      <br>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                             <button type="submit" class="btn btn-primary">Guardar</button>
                         </div>
                     </form>
+                    
                 </div>
             </div>
         </div>
