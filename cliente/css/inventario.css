@@ -368,8 +368,10 @@ form label {
 form input,
 form select {
     width: 100%;
-    padding: 8px;
-    margin-top: 5px;
+    border: 1px solid rgb(83, 83, 83);
+    border-radius: 10px;
+    padding: 5px;
+    background-color: #cacaca;
 }
 
 .submit-btn {
@@ -377,7 +379,7 @@ form select {
     width: 100%;
     padding: 10px;
     margin-top: 15px;
-    background-color: #4CAF50;
+    background-color: var(--red);
     color: white;
     border: none;
     border-radius: 5px;
@@ -385,7 +387,7 @@ form select {
 }
 
 .submit-btn:hover {
-    background-color: #45a049;
+    background-color: var(--black1);
 }
 
 /* Estilos adicionales para los filtros */
@@ -408,7 +410,6 @@ form select {
     margin: 0;
 }
 
-/* Limitar el tamaño de los elementos para que quepan en la línea */
 .filter-container select,
 .filter-container input[type="text"],
 .filter-container input[type="date"] {
@@ -418,10 +419,29 @@ form select {
 .filter-container button {
     width: 120px;
 }
+.conteidoForm{
+  margin-top: 20px;
+  margin-bottom: 20px;
+  width: 70%;
+  padding: 10px;
+  background-color: #cacaca;
+  border-radius: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#resetBtn, #filterBtn{
+  background-color: #cacaca;
+  border: 1px solid rgb(83, 83, 83);
+  border-radius: 10px;
+}
 
 .tabla-container {
     margin-top: 20px;
 }
+
+
 
 /* ventas */
 #selectedProduct {

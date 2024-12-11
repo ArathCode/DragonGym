@@ -250,8 +250,10 @@ body {
 }
 .gB button{
   padding: 10px;
-  background-color: var(--red);
+  background-color:var(--red);
   color: white;
+  font-size: 15px;
+  font-weight: 500;
   border-radius: 20px;
   border: transparent;
   cursor: pointer;

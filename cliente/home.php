@@ -5,9 +5,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['action']) && $_POST['a
     $nombre = $_POST['nombre'];
     $apellido = $_POST['apellidoV'];
     $precio = $_POST['precioV'];
-    $fecha = date('Y-m-d'); 
+    $fecha = date('Y-m-d');
     date_default_timezone_set('America/Mexico_City');
-    $hora = date('H:i:s'); 
+    $hora = date('H:i:s');
 
     $query = "INSERT INTO visitas (Nombre, Apellido, Fecha, HoraE, Precio) VALUES (?, ?, ?, ?, ?)";
     $stmt = mysqli_prepare($conexion, $query);
@@ -61,20 +61,20 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['filtro'])) {
 $cone = mysqli_query($conexion, "SELECT COUNT(*) AS totalVisitasHoy FROM visitasDia WHERE fechaVisita = CURDATE() AND Estado_Membresia = 'Visita';");
 
 if ($cone) {
-    $visitasHoy = mysqli_fetch_assoc($cone); 
+    $visitasHoy = mysqli_fetch_assoc($cone);
     $totalVisitasHoy = $visitasHoy['totalVisitasHoy'];
 } else {
-    $totalVisitasHoy = 0; 
+    $totalVisitasHoy = 0;
     echo "Error en la consulta de visitas: " . mysqli_error($conexion);
 }
 
 $cone = mysqli_query($conexion, "SELECT COUNT(*) AS totalMiembrosHoy FROM visitasDia WHERE fechaVisita = CURDATE() AND Estado_Membresia = 'Activo';");
 
 if ($cone) {
-    $miembrosHoy = mysqli_fetch_assoc($cone); 
+    $miembrosHoy = mysqli_fetch_assoc($cone);
     $totalMiembrosHoy = $miembrosHoy['totalMiembrosHoy'];
 } else {
-    $totalMiembrosHoy = 0; 
+    $totalMiembrosHoy = 0;
     echo "Error en la consulta de miembros: " . mysqli_error($conexion);
 }
 ?>
@@ -99,9 +99,9 @@ if ($cone) {
     <!-- =============== Barra de navegacion ================ -->
     <div class="container">
         <div class="navigation">
-             <?php
-                include_once("include/encabezado.php")
-            ?>     
+            <?php
+            include_once("include/encabezado.php")
+                ?>
         </div>
 
         <!-- ========================= Contenido principal ==================== -->
@@ -118,7 +118,7 @@ if ($cone) {
                     </label>
                 </div>
                 <div class="contenedor">
-                    <div class="notificacion"  onclick="toggleNotifi()">
+                    <div class="notificacion" onclick="toggleNotifi()">
                         <ion-icon name="file-tray-full-outline"></ion-icon>
                     </div>
                     <div class="usuario">
@@ -147,18 +147,19 @@ if ($cone) {
                                             <li>Vie</li>
                                             <li>Sáb</li>
                                         </ul>
-                                        <ul class="dates"></ul> 
+                                        <ul class="dates"></ul>
                                     </div>
                                 </div>
                             </div>
                             <div class="noti">
 
-                    
+
                                 <table>
                                     <tr>
                                         <td width="60px">
                                             <div class="imgBx">
-                                                <img src="https://i.pinimg.com/originals/f1/b7/93/f1b7935c804bd8349332c922be171c11.gif" alt="">
+                                                <img src="https://i.pinimg.com/originals/f1/b7/93/f1b7935c804bd8349332c922be171c11.gif"
+                                                    alt="">
                                             </div>
                                         </td>
                                         <td>
@@ -167,7 +168,9 @@ if ($cone) {
                                     </tr>
                                     <tr>
                                         <td width="60px">
-                                            <div class="imgBx"><img src="https://i.pinimg.com/originals/20/81/89/20818965bf4c0505b4ef63ec329813c5.gif" alt=""></div>
+                                            <div class="imgBx"><img
+                                                    src="https://i.pinimg.com/originals/20/81/89/20818965bf4c0505b4ef63ec329813c5.gif"
+                                                    alt=""></div>
                                         </td>
                                         <td>
                                             <h4>Pago membresia <br> <span>18:08</span></h4>
@@ -175,7 +178,9 @@ if ($cone) {
                                     </tr>
                                     <tr>
                                         <td width="60px">
-                                            <div class="imgBx"><img src="https://i.pinimg.com/originals/20/81/89/20818965bf4c0505b4ef63ec329813c5.gif" alt=""></div>
+                                            <div class="imgBx"><img
+                                                    src="https://i.pinimg.com/originals/20/81/89/20818965bf4c0505b4ef63ec329813c5.gif"
+                                                    alt=""></div>
                                         </td>
                                         <td>
                                             <h4>Pago membresia <br> <span>18:08</span></h4>
@@ -183,7 +188,9 @@ if ($cone) {
                                     </tr>
                                     <tr>
                                         <td width="60px">
-                                            <div class="imgBx"><img src="https://i.pinimg.com/originals/ec/46/54/ec465408972e4dc8bfd212c67af58c37.gif" alt=""></div>
+                                            <div class="imgBx"><img
+                                                    src="https://i.pinimg.com/originals/ec/46/54/ec465408972e4dc8bfd212c67af58c37.gif"
+                                                    alt=""></div>
                                         </td>
                                         <td>
                                             <h4>Pago membresia <br> <span>18:08</span></h4>
@@ -204,13 +211,13 @@ if ($cone) {
                                         <td>
                                             <h4>Pago membresia <br> <span>18:08</span></h4>
                                         </td>
-                                    </tr>   
+                                    </tr>
                                 </table>
                             </div>
                         </div>
                     </div>
                 </div>
-                
+
             </div>
 
             <!-- ======================= Contadores ================== -->
@@ -240,7 +247,7 @@ if ($cone) {
                     <button class="agregarV" id="agregarVisitaBtn2"><span>Agregar visita</span></button>
 
                 </div>
-                
+
             </div>
             <!-- ================ Modal de visita ================= -->
             <dialog id="openModal">
@@ -248,10 +255,10 @@ if ($cone) {
                     <div class="cierre">
                         <span class="close" onclick="cerrarModal('openModal')">×</span>
                     </div>
-                    
+
                     <h2>Agregar visita</h2>
                     <form id="myForm" action="" method="POST">
-                        <input type="hidden" name="action" value="agregar_visita"> 
+                        <input type="hidden" name="action" value="agregar_visita">
 
                         <div class="imagenV">
                             <img src="imgs/Notificacion.gif" alt="Visita">
@@ -275,7 +282,8 @@ if ($cone) {
                         </div>
 
                         <div class="botonV">
-                            <button class="agregarV" id="agregarVisitaBtn" type="submit"><span>Agregar visita</span></button>
+                            <button class="agregarV" id="agregarVisitaBtn" type="submit"><span>Agregar
+                                    visita</span></button>
                         </div>
                     </form>
                 </div>
@@ -284,29 +292,29 @@ if ($cone) {
             <!-- ================ Tabla de usuarios ================= -->
             <div class="details">
                 <div class="registro">
-                <div class="cardHeader">
-                    <h2>Lista de visitas</h2>
-                    <a href="#" id="estadisticasBtn" class="btn">Gráfica</a>
-                </div>
-                <!-- ================ Modal de estadísticas ================= -->
-                <dialog id="modalEstadisticas">
-                    <div class="modal-content">
-                        <div class="cierre">
-                            <span class="close" onclick="cerrarModal('modalEstadisticas')">×</span>
-                        </div>
-                        <h2>Estadísticas de Visitas y Miembros</h2>
-                        <canvas id="myChart"></canvas>
-                        <div>
-                            <label for="filtro">Filtrar por:</label>
-                            <select id="filtro">
-                                <option value="dia">Hoy</option>
-                                <option value="semana">Semana</option>
-                                <option value="mes">Mes</option>
-                            </select>
-                            <button id="cargarDatos">Cargar Datos</button>
-                        </div>
+                    <div class="cardHeader">
+                        <h2>Lista de visitas</h2>
+                        <a href="#" id="estadisticasBtn" class="btn">Gráfica</a>
                     </div>
-                </dialog>
+                    <!-- ================ Modal de estadísticas ================= -->
+                    <dialog id="modalEstadisticas">
+                        <div class="modal-content">
+                            <div class="cierre">
+                                <span class="close" onclick="cerrarModal('modalEstadisticas')">×</span>
+                            </div>
+                            <h2>Estadísticas de Visitas y Miembros</h2>
+                            <canvas id="myChart"></canvas>
+                            <div>
+                                <label for="filtro">Filtrar por:</label>
+                                <select id="filtro">
+                                    <option value="dia">Hoy</option>
+                                    <option value="semana">Semana</option>
+                                    <option value="mes">Mes</option>
+                                </select>
+                                <button id="cargarDatos">Cargar Datos</button>
+                            </div>
+                        </div>
+                    </dialog>
 
                     <table>
                         <thead>
@@ -320,26 +328,28 @@ if ($cone) {
                         </thead>
 
                         <tbody>
-                            <?php 
+                            <?php
                             include_once("../servidor/conexion.php");
 
                             $con = mysqli_query($conexion, "SELECT Nombre, Apellidos, Estado_Membresia, fechaVisita, horaIngreso, horaSalida FROM visitasDia WHERE fechaVisita = CURDATE();");
                             $res = mysqli_num_rows($con);
 
-                            if ($res > 0) { 
-                                while ($datos = mysqli_fetch_assoc($con)) {   
-                            ?>
-                                <tr>
-                                    <td><?php echo htmlspecialchars($datos['Nombre']); ?></td>
-                                    <td><?php echo htmlspecialchars($datos['Apellidos']); ?></td>
-                                    <td><?php echo htmlspecialchars($datos['horaIngreso']); ?></td> 
-                                    <td><?php echo htmlspecialchars($datos['horaSalida']); ?></td> 
-                                    <td><span class="estado activo"><?php echo htmlspecialchars($datos['Estado_Membresia']); ?></span></td>
-                                </tr>
-                            <?php 
+                            if ($res > 0) {
+                                while ($datos = mysqli_fetch_assoc($con)) {
+                                    ?>
+                                    <tr>
+                                        <td><?php echo htmlspecialchars($datos['Nombre']); ?></td>
+                                        <td><?php echo htmlspecialchars($datos['Apellidos']); ?></td>
+                                        <td><?php echo htmlspecialchars($datos['horaIngreso']); ?></td>
+                                        <td><?php echo htmlspecialchars($datos['horaSalida']); ?></td>
+                                        <td><span
+                                                class="estado activo"><?php echo htmlspecialchars($datos['Estado_Membresia']); ?></span>
+                                        </td>
+                                    </tr>
+                                <?php
                                 }
                             } else {
-                                echo '<tr><td colspan="5">No hay visitas registradas para hoy.</td></tr>'; 
+                                echo '<tr><td colspan="5">No hay visitas registradas para hoy.</td></tr>';
                             }
                             ?>
                         </tbody>
@@ -354,28 +364,28 @@ if ($cone) {
                         <div class="huella">
                             <ion-icon name="finger-print-outline"></ion-icon>
                         </div>
-                        
+
                     </div>
                     <div class="fotoM">
-                        
+
                     </div>
                     <div class="contenidoM">
                         <p>#32</p>
                         <h3>Jorge Solis</h2>
-                        <p>2 Meses continuos</p>
-                        <div class="fechas">
-                            <div class="fechaI">
-                                24/9/2024
+                            <p>2 Meses continuos</p>
+                            <div class="fechas">
+                                <div class="fechaI">
+                                    24/9/2024
+                                </div>
+                                <div class="fechaF">
+                                    24/10/2024
+                                </div>
                             </div>
-                            <div class="fechaF">
-                                24/10/2024
+                            <div class="estadoM">
+                                Membresía Activa
                             </div>
-                        </div>
-                        <div class="estadoM">
-                            Membresía Activa
-                        </div>
                     </div>
-                    
+
                 </div>
             </div>
         </div>
