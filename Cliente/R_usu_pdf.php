@@ -7,7 +7,7 @@ class PDF extends FPDF {
     function Header() {
         $this->SetFillColor(0, 0, 0);
         
-        $this->Image('Imagenes/logo2.png', 10, 15, 20); 
+        $this->Image('imgs/logo.jpg', 10, 15, 20); 
         $this->SetFont('Arial', 'B', 16);
         $this->SetTextColor(33, 37, 41);
         $this->Cell(0, 10, 'Reporte de miembros', 0, 1, 'C');
@@ -35,7 +35,7 @@ class PDF extends FPDF {
 }
 
 
-require("../Servidor/conexion.php");
+require("../servidor/conexion.php");
 
 if (mysqli_connect_errno()) {
     die('Error de conexión: ' . mysqli_connect_error());

@@ -1,0 +1,198 @@
+body {
+    font-family: Arial, sans-serif;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.logo {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    margin-right: 20px;
+}
+
+h1 {
+    margin: 0;
+    font-size: 24px;
+    text-align: center;
+}
+
+.tabla-container {
+    margin: 20px auto;
+    width: 90%;
+    max-width: 1200px;
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+th,
+td {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
+
+.product-img {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+.divider {
+    width: 100%;
+    height: 2px;
+    background-color: black;
+    margin: 20px 0;
+}
+
+.insert-btn {
+    display: block;
+    margin: 10px auto;
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.insert-btn:hover {
+    background-color: #45a049;
+}
+
+
+/* Modal */
+.modal {
+    display: none;
+    /* Oculto inicialmente */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 5px;
+    width: 400px;
+    max-width: 90%;
+    position: relative;
+    margin: auto;
+    top: 20%;
+}
+
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+    font-size: 20px;
+    color: red;
+}
+
+form label {
+    display: block;
+    margin-top: 10px;
+}
+
+form input,
+form select {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+}
+
+.submit-btn {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin-top: 15px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.submit-btn:hover {
+    background-color: #45a049;
+}
+
+/* Estilos adicionales para los filtros */
+.filter-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+    gap: 10px;
+    flex-wrap: nowrap;
+    /* Evitar el salto de línea */
+}
+
+.filter-container select,
+.filter-container input[type="text"],
+.filter-container input[type="date"],
+.filter-container button {
+    padding: 5px 10px;
+    font-size: 14px;
+    margin: 0;
+}
+
+/* Limitar el tamaño de los elementos para que quepan en la línea */
+.filter-container select,
+.filter-container input[type="text"],
+.filter-container input[type="date"] {
+    width: 150px;
+}
+
+.filter-container button {
+    width: 120px;
+}
+
+.tabla-container {
+    margin-top: 20px;
+}
+
+/* ventas */
+#selectedProduct {
+    text-align: center;
+    padding: 10px;
+}
+
+
+.product-image:hover {
+    transform: scale(2.5);
+       
+}
+
+.product-imagei:hover {
+    transform: scale(3);
+       
+}
+
+#btnconfirmar{
+    padding: 5px 10px;
+    font-size: 14px;
+    margin: 150px;
+
+}
